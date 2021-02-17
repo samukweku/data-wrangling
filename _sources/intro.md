@@ -1,4 +1,4 @@
-Data Wrangling Cookbook
+Data Wrangling Recipes
 =======================
 
 *Edited by Samuel Oranyeli*
