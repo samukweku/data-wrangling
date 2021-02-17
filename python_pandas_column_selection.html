@@ -1,0 +1,4095 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Column Selection in Pandas - and Pyjanitor &#8212; Data Wrangling Cookbook</title>
+    
+  <link rel="stylesheet" href="_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/sphinx-book-theme.40e2e510f6b7d1648584402491bb10fe.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.d3f166471bb80abb5163.js">
+
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/sphinx-book-theme.d31b09fe5c1d09cb49b26a786de4a05d.js"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Data Wrangling with Pandas" href="pandas.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="index.html">
+  
+  
+  <h1 class="site-logo" id="site-title">Data Wrangling Cookbook</h1>
+  
+</a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="intro.html">
+   Data Wrangling Cookbook
+  </a>
+ </li>
+</ul>
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="datatable.html">
+   Data Wrangling with Python Datatable
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="python_datatable_column_selection.html">
+     Column Selection in Datatable
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="replicate_SD_datatable.html">
+     Replicating .SD in Python Datatable
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1 current active collapsible-parent">
+  <a class="reference internal" href="pandas.html">
+   Data Wrangling with Pandas
+  </a>
+  <ul class="current collapse-ul">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     Column Selection in Pandas - and Pyjanitor
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+</ul>
+
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="row topbar fixed-top container-xl">
+    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+    </div>
+    <div class="col pl-2 topbar-main">
+        
+        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+            data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+            aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+            title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+            <i class="fas fa-bars"></i>
+            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        
+        
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/python_pandas_column_selection.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+        <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/samukweku/samukweku.github.io/data-wrangling"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/samukweku/samukweku.github.io/data-wrangling/issues/new?title=Issue%20on%20page%20%2Fpython_pandas_column_selection.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+
+        <!-- Full screen (wrap in <a> to have style consistency -->
+        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                title="Fullscreen mode"><i
+                    class="fas fa-expand"></i></button></a>
+
+        <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/samukweku/samukweku.github.io/master?urlpath=tree/docs/python_pandas_column_selection.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
+    </div>
+
+    <!-- Table of contents -->
+    <div class="d-none d-md-block col-md-2 bd-toc show">
+        
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i> Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#selecting-columns">
+   <strong>
+    Selecting Columns
+   </strong>
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#selecting-columns-based-on-partial-names">
+     Selecting Columns based on Partial Names
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#selecting-columns-based-on-regex">
+     Selecting Columns based on Regex
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#selecting-columns-by-their-data-type">
+     Selecting columns by their data type
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#selecting-columns-by-logical-expressions">
+     Selecting columns by logical expressions
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#reordering-columns">
+   <strong>
+    Reordering Columns
+   </strong>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#column-names">
+   <strong>
+    Column Names
+   </strong>
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#renaming-columns">
+     Renaming Columns
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#reformatting-all-column-names">
+     Reformatting all Column Names
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+        </nav>
+        
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="column-selection-in-pandas-and-pyjanitor">
+<h1>Column Selection in Pandas - and Pyjanitor<a class="headerlink" href="#column-selection-in-pandas-and-pyjanitor" title="Permalink to this headline">¶</a></h1>
+<p>This article highlights various ways to select columns using <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/user_guide/index.html#user-guide">Pandas</a> and <a class="reference external" href="https://pyjanitor.readthedocs.io/">Pyjanitor</a>.</p>
+<p><a class="reference external" href="https://pyjanitor.readthedocs.io/">Pyjanitor</a> is an open-source project that extends Pandas chaining methods with a verb-based API.</p>
+<p>The examples used here are based off the excellent <a class="reference external" href="https://suzan.rbind.io/2018/01/dplyr-tutorial-1/">article</a> by <a class="reference external" href="https://twitter.com/SuzanBaert">Susan Baert</a>.</p>
+<p>The data file can be accessed <a class="reference external" href="https://github.com/samukweku/data_files/raw/master/msleep.txt">here</a></p>
+<div class="section" id="selecting-columns">
+<h2><strong>Selecting Columns</strong><a class="headerlink" href="#selecting-columns" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">janitor</span>
+
+<span class="n">file_path</span> <span class="o">=</span> <span class="s2">&quot;https://github.com/samukweku/data_files/raw/master/msleep.txt&quot;</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>name</th>
+      <th>genus</th>
+      <th>vore</th>
+      <th>order</th>
+      <th>conservation</th>
+      <th>sleep_total</th>
+      <th>sleep_rem</th>
+      <th>sleep_cycle</th>
+      <th>awake</th>
+      <th>brainwt</th>
+      <th>bodywt</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Cheetah</td>
+      <td>Acinonyx</td>
+      <td>carni</td>
+      <td>Carnivora</td>
+      <td>lc</td>
+      <td>12.1</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>11.9</td>
+      <td>NaN</td>
+      <td>50.000</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Owl monkey</td>
+      <td>Aotus</td>
+      <td>omni</td>
+      <td>Primates</td>
+      <td>NaN</td>
+      <td>17.0</td>
+      <td>1.8</td>
+      <td>NaN</td>
+      <td>7.0</td>
+      <td>0.01550</td>
+      <td>0.480</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Mountain beaver</td>
+      <td>Aplodontia</td>
+      <td>herbi</td>
+      <td>Rodentia</td>
+      <td>nt</td>
+      <td>14.4</td>
+      <td>2.4</td>
+      <td>NaN</td>
+      <td>9.6</td>
+      <td>NaN</td>
+      <td>1.350</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Greater short-tailed shrew</td>
+      <td>Blarina</td>
+      <td>omni</td>
+      <td>Soricomorpha</td>
+      <td>lc</td>
+      <td>14.9</td>
+      <td>2.3</td>
+      <td>0.133333</td>
+      <td>9.1</td>
+      <td>0.00029</td>
+      <td>0.019</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Cow</td>
+      <td>Bos</td>
+      <td>herbi</td>
+      <td>Artiodactyla</td>
+      <td>domesticated</td>
+      <td>4.0</td>
+      <td>0.7</td>
+      <td>0.666667</td>
+      <td>20.0</td>
+      <td>0.42300</td>
+      <td>600.000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>In Pandas, you can select columns by label with <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.loc.html">loc</a> or position with <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.iloc.html#pandas.DataFrame.iloc">iloc</a>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># selecting a single label returns a Series</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;genus&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0      Acinonyx
+1         Aotus
+2    Aplodontia
+3       Blarina
+4           Bos
+Name: genus, dtype: object
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Selecting a single position returns a Series</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0      Acinonyx
+1         Aotus
+2    Aplodontia
+3       Blarina
+4           Bos
+Name: genus, dtype: object
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">10</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0      Acinonyx
+1         Aotus
+2    Aplodontia
+3       Blarina
+4           Bos
+Name: genus, dtype: object
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Selecting a list returns a DataFrame</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="p">[</span><span class="s1">&#39;genus&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>genus</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Acinonyx</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Aotus</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Aplodontia</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Blarina</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Bos</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="p">[</span><span class="o">-</span><span class="mi">10</span><span class="p">]]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>genus</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Acinonyx</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Aotus</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Aplodontia</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Blarina</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Bos</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>You can also select single columns with Pyjanitor’s <a class="reference external" href="https://pyjanitor.readthedocs.io/reference/janitor.functions/janitor.select_columns.html#janitor.select_columns">select_columns</a>; a dataframe is always returned:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">select_columns</span><span class="p">(</span><span class="s1">&#39;genus&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>genus</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Acinonyx</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Aotus</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Aplodontia</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Blarina</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Bos</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><strong>Note:</strong> <a class="reference external" href="https://pyjanitor.readthedocs.io/reference/janitor.functions/janitor.select_columns.html#janitor.select_columns">select_columns</a> only works with labels, and can accept a string, a regular expression, a slice, a function, or a list containing any of the previous types. If a function is provided, the function should be applicable to every seriesin the dataframe.</p>
+<p>You can select columns by passing a list of the column names:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">columns_to_select</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;genus&quot;</span><span class="p">,</span> <span class="s2">&quot;sleep_total&quot;</span><span class="p">,</span> <span class="s2">&quot;awake&quot;</span><span class="p">]</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">columns_to_select</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>name</th>
+      <th>genus</th>
+      <th>sleep_total</th>
+      <th>awake</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Cheetah</td>
+      <td>Acinonyx</td>
+      <td>12.1</td>
+      <td>11.9</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Owl monkey</td>
+      <td>Aotus</td>
+      <td>17.0</td>
+      <td>7.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Mountain beaver</td>
+      <td>Aplodontia</td>
+      <td>14.4</td>
+      <td>9.6</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Greater short-tailed shrew</td>
+      <td>Blarina</td>
+      <td>14.9</td>
+      <td>9.1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Cow</td>
+      <td>Bos</td>
+      <td>4.0</td>
+      <td>20.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Same applies with Pyjanitor’s <a class="reference external" href="https://pyjanitor.readthedocs.io/reference/janitor.functions/janitor.select_columns.html#janitor.select_columns">select_columns</a>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">select_columns</span><span class="p">(</span><span class="n">columns_to_select</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>name</th>
+      <th>genus</th>
+      <th>sleep_total</th>
+      <th>awake</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Cheetah</td>
+      <td>Acinonyx</td>
+      <td>12.1</td>
+      <td>11.9</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Owl monkey</td>
+      <td>Aotus</td>
+      <td>17.0</td>
+      <td>7.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Mountain beaver</td>
+      <td>Aplodontia</td>
+      <td>14.4</td>
+      <td>9.6</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Greater short-tailed shrew</td>
+      <td>Blarina</td>
+      <td>14.9</td>
+      <td>9.1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Cow</td>
+      <td>Bos</td>
+      <td>4.0</td>
+      <td>20.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>You can pass a list/tuple of booleans; only the columns that pair with <code class="docutils literal notranslate"><span class="pre">True</span></code> are selected:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">columns_to_select</span> <span class="o">=</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span><span class="kc">False</span><span class="p">,</span><span class="kc">True</span><span class="p">,</span><span class="kc">True</span><span class="p">,</span><span class="kc">False</span><span class="p">,</span><span class="kc">False</span><span class="p">]</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">columns_to_select</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>name</th>
+      <th>genus</th>
+      <th>sleep_total</th>
+      <th>sleep_cycle</th>
+      <th>awake</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Cheetah</td>
+      <td>Acinonyx</td>
+      <td>12.1</td>
+      <td>NaN</td>
+      <td>11.9</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Owl monkey</td>
+      <td>Aotus</td>
+      <td>17.0</td>
+      <td>NaN</td>
+      <td>7.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Mountain beaver</td>
+      <td>Aplodontia</td>
+      <td>14.4</td>
+      <td>NaN</td>
+      <td>9.6</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Greater short-tailed shrew</td>
+      <td>Blarina</td>
+      <td>14.9</td>
+      <td>0.133333</td>
+      <td>9.1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Cow</td>
+      <td>Bos</td>
+      <td>4.0</td>
+      <td>0.666667</td>
+      <td>20.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>You can select chunks of columns using python’s <a class="reference external" href="https://docs.python.org/3/library/functions.html#slice">slice</a> syntax or via the <code class="docutils literal notranslate"><span class="pre">start:end</span></code> shortcut:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="nb">slice</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;order&quot;</span><span class="p">)]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>name</th>
+      <th>genus</th>
+      <th>vore</th>
+      <th>order</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Cheetah</td>
+      <td>Acinonyx</td>
+      <td>carni</td>
+      <td>Carnivora</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Owl monkey</td>
+      <td>Aotus</td>
+      <td>omni</td>
+      <td>Primates</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Mountain beaver</td>
+      <td>Aplodontia</td>
+      <td>herbi</td>
+      <td>Rodentia</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Greater short-tailed shrew</td>
+      <td>Blarina</td>
+      <td>omni</td>
+      <td>Soricomorpha</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Cow</td>
+      <td>Bos</td>
+      <td>herbi</td>
+      <td>Artiodactyla</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;order&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>name</th>
+      <th>genus</th>
+      <th>vore</th>
+      <th>order</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Cheetah</td>
+      <td>Acinonyx</td>
+      <td>carni</td>
+      <td>Carnivora</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Owl monkey</td>
+      <td>Aotus</td>
+      <td>omni</td>
+      <td>Primates</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Mountain beaver</td>
+      <td>Aplodontia</td>
+      <td>herbi</td>
+      <td>Rodentia</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Greater short-tailed shrew</td>
+      <td>Blarina</td>
+      <td>omni</td>
+      <td>Soricomorpha</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Cow</td>
+      <td>Bos</td>
+      <td>herbi</td>
+      <td>Artiodactyla</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>name</th>
+      <th>genus</th>
+      <th>vore</th>
+      <th>order</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Cheetah</td>
+      <td>Acinonyx</td>
+      <td>carni</td>
+      <td>Carnivora</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Owl monkey</td>
+      <td>Aotus</td>
+      <td>omni</td>
+      <td>Primates</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Mountain beaver</td>
+      <td>Aplodontia</td>
+      <td>herbi</td>
+      <td>Rodentia</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Greater short-tailed shrew</td>
+      <td>Blarina</td>
+      <td>omni</td>
+      <td>Soricomorpha</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Cow</td>
+      <td>Bos</td>
+      <td>herbi</td>
+      <td>Artiodactyla</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Pyjanitor’s <a class="reference external" href="https://pyjanitor.readthedocs.io/reference/janitor.functions/janitor.select_columns.html#janitor.select_columns">select_columns</a> does not support the slice shortcut syntax, you have to use the <a class="reference external" href="https://docs.python.org/3/library/functions.html#slice">slice</a> function:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">select_columns</span><span class="p">(</span><span class="nb">slice</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;order&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>name</th>
+      <th>genus</th>
+      <th>vore</th>
+      <th>order</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Cheetah</td>
+      <td>Acinonyx</td>
+      <td>carni</td>
+      <td>Carnivora</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Owl monkey</td>
+      <td>Aotus</td>
+      <td>omni</td>
+      <td>Primates</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Mountain beaver</td>
+      <td>Aplodontia</td>
+      <td>herbi</td>
+      <td>Rodentia</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Greater short-tailed shrew</td>
+      <td>Blarina</td>
+      <td>omni</td>
+      <td>Soricomorpha</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Cow</td>
+      <td>Bos</td>
+      <td>herbi</td>
+      <td>Artiodactyla</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Pandas accepts a single slice object in column selection; for multiple slice selections, Pyjanitor’s <a class="reference external" href="https://pyjanitor.readthedocs.io/reference/janitor.functions/janitor.select_columns.html#janitor.select_columns">select_columns</a> comes in handy:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">columns_to_select</span> <span class="o">=</span> <span class="p">[</span><span class="nb">slice</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;order&quot;</span><span class="p">),</span> <span class="nb">slice</span><span class="p">(</span><span class="s2">&quot;sleep_total&quot;</span><span class="p">,</span> <span class="s2">&quot;sleep_cycle&quot;</span><span class="p">)]</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">select_columns</span><span class="p">(</span><span class="n">columns_to_select</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>name</th>
+      <th>genus</th>
+      <th>vore</th>
+      <th>order</th>
+      <th>sleep_total</th>
+      <th>sleep_rem</th>
+      <th>sleep_cycle</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Cheetah</td>
+      <td>Acinonyx</td>
+      <td>carni</td>
+      <td>Carnivora</td>
+      <td>12.1</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Owl monkey</td>
+      <td>Aotus</td>
+      <td>omni</td>
+      <td>Primates</td>
+      <td>17.0</td>
+      <td>1.8</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Mountain beaver</td>
+      <td>Aplodontia</td>
+      <td>herbi</td>
+      <td>Rodentia</td>
+      <td>14.4</td>
+      <td>2.4</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Greater short-tailed shrew</td>
+      <td>Blarina</td>
+      <td>omni</td>
+      <td>Soricomorpha</td>
+      <td>14.9</td>
+      <td>2.3</td>
+      <td>0.133333</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Cow</td>
+      <td>Bos</td>
+      <td>herbi</td>
+      <td>Artiodactyla</td>
+      <td>4.0</td>
+      <td>0.7</td>
+      <td>0.666667</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>To deselect/drop a chunk of columns you can set <code class="docutils literal notranslate"><span class="pre">invert=True</span></code> in Pyjanitor’s <a class="reference external" href="https://pyjanitor.readthedocs.io/reference/janitor.functions/janitor.select_columns.html#janitor.select_columns">select_columns</a> :</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">columns_to_remove</span> <span class="o">=</span> <span class="p">[</span><span class="nb">slice</span><span class="p">(</span><span class="s2">&quot;sleep_total&quot;</span><span class="p">,</span> <span class="s2">&quot;awake&quot;</span><span class="p">),</span> <span class="s2">&quot;conservation&quot;</span><span class="p">]</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">select_columns</span><span class="p">(</span><span class="n">columns_to_remove</span><span class="p">,</span> <span class="n">invert</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>name</th>
+      <th>genus</th>
+      <th>vore</th>
+      <th>order</th>
+      <th>brainwt</th>
+      <th>bodywt</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Cheetah</td>
+      <td>Acinonyx</td>
+      <td>carni</td>
+      <td>Carnivora</td>
+      <td>NaN</td>
+      <td>50.000</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Owl monkey</td>
+      <td>Aotus</td>
+      <td>omni</td>
+      <td>Primates</td>
+      <td>0.01550</td>
+      <td>0.480</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Mountain beaver</td>
+      <td>Aplodontia</td>
+      <td>herbi</td>
+      <td>Rodentia</td>
+      <td>NaN</td>
+      <td>1.350</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Greater short-tailed shrew</td>
+      <td>Blarina</td>
+      <td>omni</td>
+      <td>Soricomorpha</td>
+      <td>0.00029</td>
+      <td>0.019</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Cow</td>
+      <td>Bos</td>
+      <td>herbi</td>
+      <td>Artiodactyla</td>
+      <td>0.42300</td>
+      <td>600.000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="section" id="selecting-columns-based-on-partial-names">
+<h3>Selecting Columns based on Partial Names<a class="headerlink" href="#selecting-columns-based-on-partial-names" title="Permalink to this headline">¶</a></h3>
+<p>Pandas has a <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.filter.html">filter</a> function that makes column selection with partial matching easy:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">like</span> <span class="o">=</span> <span class="s1">&#39;sleep&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sleep_total</th>
+      <th>sleep_rem</th>
+      <th>sleep_cycle</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>12.1</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>17.0</td>
+      <td>1.8</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>14.4</td>
+      <td>2.4</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>14.9</td>
+      <td>2.3</td>
+      <td>0.133333</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4.0</td>
+      <td>0.7</td>
+      <td>0.666667</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Of course, you can select with Pandas <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.loc.html">loc</a> or Pyjanitor’s <a class="reference external" href="https://pyjanitor.readthedocs.io/reference/janitor.functions/janitor.select_columns.html#janitor.select_columns">select_columns</a>, in combination with Pandas’ <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/user_guide/text.html">string methods</a>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># this returns a list of booleans</span>
+<span class="n">columns_to_select</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s1">&#39;sleep&#39;</span><span class="p">)</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">columns_to_select</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sleep_total</th>
+      <th>sleep_rem</th>
+      <th>sleep_cycle</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>12.1</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>17.0</td>
+      <td>1.8</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>14.4</td>
+      <td>2.4</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>14.9</td>
+      <td>2.3</td>
+      <td>0.133333</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4.0</td>
+      <td>0.7</td>
+      <td>0.666667</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>With Pyjanitor’s <a class="reference external" href="https://pyjanitor.readthedocs.io/reference/janitor.functions/janitor.select_columns.html#janitor.select_columns">select_columns</a>, you can pass a function that targets each individual Series in the dataframe:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># this searches through each Series&#39; name for matches</span>
+<span class="n">columns_to_select</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">df</span><span class="p">:</span> <span class="s1">&#39;sleep&#39;</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">name</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">select_columns</span><span class="p">(</span><span class="n">columns_to_select</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sleep_total</th>
+      <th>sleep_rem</th>
+      <th>sleep_cycle</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>12.1</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>17.0</td>
+      <td>1.8</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>14.4</td>
+      <td>2.4</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>14.9</td>
+      <td>2.3</td>
+      <td>0.133333</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4.0</td>
+      <td>0.7</td>
+      <td>0.666667</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Pyjanitor’s <a class="reference external" href="https://pyjanitor.readthedocs.io/reference/janitor.functions/janitor.select_columns.html#janitor.select_columns">select_columns</a> supports shell-like glob strings(<code class="docutils literal notranslate"><span class="pre">*</span></code>) for column selection, which can come in handy for easy column selection:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">select_columns</span><span class="p">(</span><span class="s1">&#39;*sleep*&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sleep_total</th>
+      <th>sleep_rem</th>
+      <th>sleep_cycle</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>12.1</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>17.0</td>
+      <td>1.8</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>14.4</td>
+      <td>2.4</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>14.9</td>
+      <td>2.3</td>
+      <td>0.133333</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4.0</td>
+      <td>0.7</td>
+      <td>0.666667</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Let’s look at some more examples:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">columns_to_select</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s2">&quot;eep&quot;</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;wt&#39;</span><span class="p">))</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">columns_to_select</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sleep_total</th>
+      <th>sleep_rem</th>
+      <th>sleep_cycle</th>
+      <th>brainwt</th>
+      <th>bodywt</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>12.1</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>50.000</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>17.0</td>
+      <td>1.8</td>
+      <td>NaN</td>
+      <td>0.01550</td>
+      <td>0.480</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>14.4</td>
+      <td>2.4</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.350</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>14.9</td>
+      <td>2.3</td>
+      <td>0.133333</td>
+      <td>0.00029</td>
+      <td>0.019</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4.0</td>
+      <td>0.7</td>
+      <td>0.666667</td>
+      <td>0.42300</td>
+      <td>600.000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">columns_to_select</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">df</span><span class="p">:</span> <span class="s1">&#39;eep&#39;</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">name</span> <span class="ow">or</span> <span class="n">df</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;wt&#39;</span><span class="p">)</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">select_columns</span><span class="p">(</span><span class="n">columns_to_select</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sleep_total</th>
+      <th>sleep_rem</th>
+      <th>sleep_cycle</th>
+      <th>brainwt</th>
+      <th>bodywt</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>12.1</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>50.000</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>17.0</td>
+      <td>1.8</td>
+      <td>NaN</td>
+      <td>0.01550</td>
+      <td>0.480</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>14.4</td>
+      <td>2.4</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.350</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>14.9</td>
+      <td>2.3</td>
+      <td>0.133333</td>
+      <td>0.00029</td>
+      <td>0.019</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4.0</td>
+      <td>0.7</td>
+      <td>0.666667</td>
+      <td>0.42300</td>
+      <td>600.000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># list of shell-like glob strings</span>
+<span class="n">columns_to_select</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;*eep*&quot;</span><span class="p">,</span> <span class="s2">&quot;*wt&quot;</span><span class="p">]</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">select_columns</span><span class="p">(</span><span class="n">columns_to_select</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sleep_total</th>
+      <th>sleep_rem</th>
+      <th>sleep_cycle</th>
+      <th>brainwt</th>
+      <th>bodywt</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>12.1</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>50.000</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>17.0</td>
+      <td>1.8</td>
+      <td>NaN</td>
+      <td>0.01550</td>
+      <td>0.480</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>14.4</td>
+      <td>2.4</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.350</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>14.9</td>
+      <td>2.3</td>
+      <td>0.133333</td>
+      <td>0.00029</td>
+      <td>0.019</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4.0</td>
+      <td>0.7</td>
+      <td>0.666667</td>
+      <td>0.42300</td>
+      <td>600.000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</div>
+<div class="section" id="selecting-columns-based-on-regex">
+<h3>Selecting Columns based on Regex<a class="headerlink" href="#selecting-columns-based-on-regex" title="Permalink to this headline">¶</a></h3>
+<p>Pandas’ <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.filter.html">filter</a> also accepts a regular expression:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">regex</span> <span class="o">=</span> <span class="s1">&#39;eep|wt$&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sleep_total</th>
+      <th>sleep_rem</th>
+      <th>sleep_cycle</th>
+      <th>brainwt</th>
+      <th>bodywt</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>12.1</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>50.000</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>17.0</td>
+      <td>1.8</td>
+      <td>NaN</td>
+      <td>0.01550</td>
+      <td>0.480</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>14.4</td>
+      <td>2.4</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.350</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>14.9</td>
+      <td>2.3</td>
+      <td>0.133333</td>
+      <td>0.00029</td>
+      <td>0.019</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4.0</td>
+      <td>0.7</td>
+      <td>0.666667</td>
+      <td>0.42300</td>
+      <td>600.000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>You can also pass a regular expression to Pandas <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.loc.html">loc</a> or Pyjanitor’s <a class="reference external" href="https://pyjanitor.readthedocs.io/reference/janitor.functions/janitor.select_columns.html#janitor.select_columns">select_columns</a>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">columns_to_select</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s2">&quot;eep|wt$&quot;</span><span class="p">)</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">columns_to_select</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sleep_total</th>
+      <th>sleep_rem</th>
+      <th>sleep_cycle</th>
+      <th>brainwt</th>
+      <th>bodywt</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>12.1</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>50.000</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>17.0</td>
+      <td>1.8</td>
+      <td>NaN</td>
+      <td>0.01550</td>
+      <td>0.480</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>14.4</td>
+      <td>2.4</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.350</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>14.9</td>
+      <td>2.3</td>
+      <td>0.133333</td>
+      <td>0.00029</td>
+      <td>0.019</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4.0</td>
+      <td>0.7</td>
+      <td>0.666667</td>
+      <td>0.42300</td>
+      <td>600.000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Selection with Pyjanitor’s <a class="reference external" href="https://pyjanitor.readthedocs.io/reference/janitor.functions/janitor.select_columns.html#janitor.select_columns">select_columns</a> requires the use of <a class="reference external" href="https://docs.python.org/3/library/re.html#re.compile">re.compile</a>; underneath the hood, <a class="reference external" href="https://docs.python.org/3/library/re.html#re.search">re.search</a> is used:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">select_columns</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;eep|wt$&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sleep_total</th>
+      <th>sleep_rem</th>
+      <th>sleep_cycle</th>
+      <th>brainwt</th>
+      <th>bodywt</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>12.1</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>50.000</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>17.0</td>
+      <td>1.8</td>
+      <td>NaN</td>
+      <td>0.01550</td>
+      <td>0.480</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>14.4</td>
+      <td>2.4</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.350</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>14.9</td>
+      <td>2.3</td>
+      <td>0.133333</td>
+      <td>0.00029</td>
+      <td>0.019</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4.0</td>
+      <td>0.7</td>
+      <td>0.666667</td>
+      <td>0.42300</td>
+      <td>600.000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>The code samples below will select any column that contains an ‘o’, followed by one or more other letters, and ‘er’.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">columns_to_select</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;o.+er&quot;</span><span class="p">)</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">columns_to_select</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>order</th>
+      <th>conservation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Carnivora</td>
+      <td>lc</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Primates</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Rodentia</td>
+      <td>nt</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Soricomorpha</td>
+      <td>lc</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Artiodactyla</td>
+      <td>domesticated</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">select_columns</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;o.+er&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>order</th>
+      <th>conservation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Carnivora</td>
+      <td>lc</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Primates</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Rodentia</td>
+      <td>nt</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Soricomorpha</td>
+      <td>lc</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Artiodactyla</td>
+      <td>domesticated</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">regex</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;o.+er&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>order</th>
+      <th>conservation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Carnivora</td>
+      <td>lc</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Primates</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Rodentia</td>
+      <td>nt</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Soricomorpha</td>
+      <td>lc</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Artiodactyla</td>
+      <td>domesticated</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</div>
+<div class="section" id="selecting-columns-by-their-data-type">
+<h3>Selecting columns by their data type<a class="headerlink" href="#selecting-columns-by-their-data-type" title="Permalink to this headline">¶</a></h3>
+<p>You can select columns by data type with Pandas’ <a class="reference external" href="https://www.google.com/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=&amp;cad=rja&amp;uact=8&amp;ved=2ahUKEwjRwOK57ObuAhXPIbcAHRQNCQgQFjAAegQIARAC&amp;url=https%3A%2F%2Fpandas.pydata.org%2Fpandas-docs%2Fstable%2Freference%2Fapi%2Fpandas.DataFrame.select_dtypes.html&amp;usg=AOvVaw2R15nQ5DZFz9MUIUyQoM_u">select_dtypes</a>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># you have to use &#39;object&#39; to select strings</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="s1">&#39;object&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>name</th>
+      <th>genus</th>
+      <th>vore</th>
+      <th>order</th>
+      <th>conservation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Cheetah</td>
+      <td>Acinonyx</td>
+      <td>carni</td>
+      <td>Carnivora</td>
+      <td>lc</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Owl monkey</td>
+      <td>Aotus</td>
+      <td>omni</td>
+      <td>Primates</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Mountain beaver</td>
+      <td>Aplodontia</td>
+      <td>herbi</td>
+      <td>Rodentia</td>
+      <td>nt</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Greater short-tailed shrew</td>
+      <td>Blarina</td>
+      <td>omni</td>
+      <td>Soricomorpha</td>
+      <td>lc</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Cow</td>
+      <td>Bos</td>
+      <td>herbi</td>
+      <td>Artiodactyla</td>
+      <td>domesticated</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>You can also select dtypes with Pyjanitor’s <a class="reference external" href="https://pyjanitor.readthedocs.io/reference/janitor.functions/janitor.select_columns.html#janitor.select_columns">select_columns</a>, in conjunction with Pandas’ <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/general_utility_functions.html#dtype-introspection">api types</a> functions:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># The function is applied to each Series in the DataFrame</span>
+<span class="n">columns_to_select</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">is_string_dtype</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">select_columns</span><span class="p">(</span><span class="n">columns_to_select</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>name</th>
+      <th>genus</th>
+      <th>vore</th>
+      <th>order</th>
+      <th>conservation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Cheetah</td>
+      <td>Acinonyx</td>
+      <td>carni</td>
+      <td>Carnivora</td>
+      <td>lc</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Owl monkey</td>
+      <td>Aotus</td>
+      <td>omni</td>
+      <td>Primates</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Mountain beaver</td>
+      <td>Aplodontia</td>
+      <td>herbi</td>
+      <td>Rodentia</td>
+      <td>nt</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Greater short-tailed shrew</td>
+      <td>Blarina</td>
+      <td>omni</td>
+      <td>Soricomorpha</td>
+      <td>lc</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Cow</td>
+      <td>Bos</td>
+      <td>herbi</td>
+      <td>Artiodactyla</td>
+      <td>domesticated</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>You can select multiple data types:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="s1">&#39;number&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sleep_total</th>
+      <th>sleep_rem</th>
+      <th>sleep_cycle</th>
+      <th>awake</th>
+      <th>brainwt</th>
+      <th>bodywt</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>12.1</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>11.9</td>
+      <td>NaN</td>
+      <td>50.000</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>17.0</td>
+      <td>1.8</td>
+      <td>NaN</td>
+      <td>7.0</td>
+      <td>0.01550</td>
+      <td>0.480</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>14.4</td>
+      <td>2.4</td>
+      <td>NaN</td>
+      <td>9.6</td>
+      <td>NaN</td>
+      <td>1.350</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>14.9</td>
+      <td>2.3</td>
+      <td>0.133333</td>
+      <td>9.1</td>
+      <td>0.00029</td>
+      <td>0.019</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4.0</td>
+      <td>0.7</td>
+      <td>0.666667</td>
+      <td>20.0</td>
+      <td>0.42300</td>
+      <td>600.000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">columns_to_select</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">is_numeric_dtype</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">select_columns</span><span class="p">(</span><span class="n">columns_to_select</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sleep_total</th>
+      <th>sleep_rem</th>
+      <th>sleep_cycle</th>
+      <th>awake</th>
+      <th>brainwt</th>
+      <th>bodywt</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>12.1</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>11.9</td>
+      <td>NaN</td>
+      <td>50.000</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>17.0</td>
+      <td>1.8</td>
+      <td>NaN</td>
+      <td>7.0</td>
+      <td>0.01550</td>
+      <td>0.480</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>14.4</td>
+      <td>2.4</td>
+      <td>NaN</td>
+      <td>9.6</td>
+      <td>NaN</td>
+      <td>1.350</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>14.9</td>
+      <td>2.3</td>
+      <td>0.133333</td>
+      <td>9.1</td>
+      <td>0.00029</td>
+      <td>0.019</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4.0</td>
+      <td>0.7</td>
+      <td>0.666667</td>
+      <td>20.0</td>
+      <td>0.42300</td>
+      <td>600.000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>You can remove columns based on their data type:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">exclude</span> <span class="o">=</span> <span class="s1">&#39;number&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>name</th>
+      <th>genus</th>
+      <th>vore</th>
+      <th>order</th>
+      <th>conservation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Cheetah</td>
+      <td>Acinonyx</td>
+      <td>carni</td>
+      <td>Carnivora</td>
+      <td>lc</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Owl monkey</td>
+      <td>Aotus</td>
+      <td>omni</td>
+      <td>Primates</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Mountain beaver</td>
+      <td>Aplodontia</td>
+      <td>herbi</td>
+      <td>Rodentia</td>
+      <td>nt</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Greater short-tailed shrew</td>
+      <td>Blarina</td>
+      <td>omni</td>
+      <td>Soricomorpha</td>
+      <td>lc</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Cow</td>
+      <td>Bos</td>
+      <td>herbi</td>
+      <td>Artiodactyla</td>
+      <td>domesticated</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">columns_to_select</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">is_numeric_dtype</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">select_columns</span><span class="p">(</span><span class="n">columns_to_select</span><span class="p">,</span> <span class="n">invert</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>name</th>
+      <th>genus</th>
+      <th>vore</th>
+      <th>order</th>
+      <th>conservation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Cheetah</td>
+      <td>Acinonyx</td>
+      <td>carni</td>
+      <td>Carnivora</td>
+      <td>lc</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Owl monkey</td>
+      <td>Aotus</td>
+      <td>omni</td>
+      <td>Primates</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Mountain beaver</td>
+      <td>Aplodontia</td>
+      <td>herbi</td>
+      <td>Rodentia</td>
+      <td>nt</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Greater short-tailed shrew</td>
+      <td>Blarina</td>
+      <td>omni</td>
+      <td>Soricomorpha</td>
+      <td>lc</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Cow</td>
+      <td>Bos</td>
+      <td>herbi</td>
+      <td>Artiodactyla</td>
+      <td>domesticated</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</div>
+<div class="section" id="selecting-columns-by-logical-expressions">
+<h3>Selecting columns by logical expressions<a class="headerlink" href="#selecting-columns-by-logical-expressions" title="Permalink to this headline">¶</a></h3>
+<p>The ideas expressed in the previous sections can be combined for some nifty column selection.</p>
+<p>Say we wish to select columns that are numeric, and have a mean greater than 10:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># first select only numeric columns</span>
+<span class="c1"># then select columns where the mean is greater than 10</span>
+<span class="p">(</span><span class="n">df</span>
+ <span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="s1">&#39;number&#39;</span><span class="p">)</span>
+ <span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="k">lambda</span> <span class="n">df</span><span class="p">:</span> <span class="n">df</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">&gt;</span><span class="mi">10</span><span class="p">]</span>
+ <span class="o">.</span><span class="n">head</span><span class="p">()</span>
+ <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sleep_total</th>
+      <th>awake</th>
+      <th>bodywt</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>12.1</td>
+      <td>11.9</td>
+      <td>50.000</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>17.0</td>
+      <td>7.0</td>
+      <td>0.480</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>14.4</td>
+      <td>9.6</td>
+      <td>1.350</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>14.9</td>
+      <td>9.1</td>
+      <td>0.019</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4.0</td>
+      <td>20.0</td>
+      <td>600.000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Alternatively, we can just get the column names and pass them directly to <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.loc.html">loc</a></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">columns_to_select</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="n">s</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">]</span><span class="o">.</span><span class="n">index</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">columns_to_select</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sleep_total</th>
+      <th>awake</th>
+      <th>bodywt</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>12.1</td>
+      <td>11.9</td>
+      <td>50.000</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>17.0</td>
+      <td>7.0</td>
+      <td>0.480</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>14.4</td>
+      <td>9.6</td>
+      <td>1.350</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>14.9</td>
+      <td>9.1</td>
+      <td>0.019</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4.0</td>
+      <td>20.0</td>
+      <td>600.000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>The same steps are possible with Pyjanitor’s <a class="reference external" href="https://pyjanitor.readthedocs.io/reference/janitor.functions/janitor.select_columns.html#janitor.select_columns">select_columns</a>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">numeric_only</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">is_numeric_dtype</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">mean_gt_10</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">df</span><span class="p">:</span> <span class="n">df</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">10</span>
+
+<span class="p">(</span><span class="n">df</span>
+ <span class="o">.</span><span class="n">select_columns</span><span class="p">(</span><span class="n">numeric_only</span><span class="p">)</span>
+ <span class="o">.</span><span class="n">select_columns</span><span class="p">(</span><span class="n">mean_gt_10</span><span class="p">)</span>
+ <span class="o">.</span><span class="n">head</span><span class="p">()</span>
+ <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sleep_total</th>
+      <th>awake</th>
+      <th>bodywt</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>12.1</td>
+      <td>11.9</td>
+      <td>50.000</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>17.0</td>
+      <td>7.0</td>
+      <td>0.480</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>14.4</td>
+      <td>9.6</td>
+      <td>1.350</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>14.9</td>
+      <td>9.1</td>
+      <td>0.019</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4.0</td>
+      <td>20.0</td>
+      <td>600.000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">columns_to_select</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="n">s</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">select_columns</span><span class="p">(</span><span class="n">columns_to_select</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sleep_total</th>
+      <th>awake</th>
+      <th>bodywt</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>12.1</td>
+      <td>11.9</td>
+      <td>50.000</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>17.0</td>
+      <td>7.0</td>
+      <td>0.480</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>14.4</td>
+      <td>9.6</td>
+      <td>1.350</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>14.9</td>
+      <td>9.1</td>
+      <td>0.019</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4.0</td>
+      <td>20.0</td>
+      <td>600.000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Let’s look at another example, where we select only columns where the number of distinct values is less than 10:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">columns_to_select</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">10</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">columns_to_select</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>vore</th>
+      <th>conservation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>carni</td>
+      <td>lc</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>omni</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>herbi</td>
+      <td>nt</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>omni</td>
+      <td>lc</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>herbi</td>
+      <td>domesticated</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">columns_to_select</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">df</span><span class="p">:</span> <span class="n">df</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">10</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">select_columns</span><span class="p">(</span><span class="n">columns_to_select</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>vore</th>
+      <th>conservation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>carni</td>
+      <td>lc</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>omni</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>herbi</td>
+      <td>nt</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>omni</td>
+      <td>lc</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>herbi</td>
+      <td>domesticated</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</div>
+</div>
+<div class="section" id="reordering-columns">
+<h2><strong>Reordering Columns</strong><a class="headerlink" href="#reordering-columns" title="Permalink to this headline">¶</a></h2>
+<p>You can select columns in the order that you want:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">columns_to_select</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;conservation&#39;</span><span class="p">,</span> <span class="s1">&#39;sleep_total&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">]</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">columns_to_select</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>conservation</th>
+      <th>sleep_total</th>
+      <th>name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>lc</td>
+      <td>12.1</td>
+      <td>Cheetah</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>NaN</td>
+      <td>17.0</td>
+      <td>Owl monkey</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>nt</td>
+      <td>14.4</td>
+      <td>Mountain beaver</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>lc</td>
+      <td>14.9</td>
+      <td>Greater short-tailed shrew</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>domesticated</td>
+      <td>4.0</td>
+      <td>Cow</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">select_columns</span><span class="p">(</span><span class="n">columns_to_select</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>conservation</th>
+      <th>sleep_total</th>
+      <th>name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>lc</td>
+      <td>12.1</td>
+      <td>Cheetah</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>NaN</td>
+      <td>17.0</td>
+      <td>Owl monkey</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>nt</td>
+      <td>14.4</td>
+      <td>Mountain beaver</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>lc</td>
+      <td>14.9</td>
+      <td>Greater short-tailed shrew</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>domesticated</td>
+      <td>4.0</td>
+      <td>Cow</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>To move some columns to the front, you could use Pyjanitor’s <a class="reference external" href="https://pyjanitor.readthedocs.io/reference/janitor.functions/janitor.reorder_columns.html#janitor.reorder_columns">reorder</a> function:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">reorder_columns</span><span class="p">([</span><span class="s1">&#39;conservation&#39;</span><span class="p">,</span> <span class="s1">&#39;sleep_total&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>conservation</th>
+      <th>sleep_total</th>
+      <th>name</th>
+      <th>genus</th>
+      <th>vore</th>
+      <th>order</th>
+      <th>sleep_rem</th>
+      <th>sleep_cycle</th>
+      <th>awake</th>
+      <th>brainwt</th>
+      <th>bodywt</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>lc</td>
+      <td>12.1</td>
+      <td>Cheetah</td>
+      <td>Acinonyx</td>
+      <td>carni</td>
+      <td>Carnivora</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>11.9</td>
+      <td>NaN</td>
+      <td>50.000</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>NaN</td>
+      <td>17.0</td>
+      <td>Owl monkey</td>
+      <td>Aotus</td>
+      <td>omni</td>
+      <td>Primates</td>
+      <td>1.8</td>
+      <td>NaN</td>
+      <td>7.0</td>
+      <td>0.01550</td>
+      <td>0.480</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>nt</td>
+      <td>14.4</td>
+      <td>Mountain beaver</td>
+      <td>Aplodontia</td>
+      <td>herbi</td>
+      <td>Rodentia</td>
+      <td>2.4</td>
+      <td>NaN</td>
+      <td>9.6</td>
+      <td>NaN</td>
+      <td>1.350</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>lc</td>
+      <td>14.9</td>
+      <td>Greater short-tailed shrew</td>
+      <td>Blarina</td>
+      <td>omni</td>
+      <td>Soricomorpha</td>
+      <td>2.3</td>
+      <td>0.133333</td>
+      <td>9.1</td>
+      <td>0.00029</td>
+      <td>0.019</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>domesticated</td>
+      <td>4.0</td>
+      <td>Cow</td>
+      <td>Bos</td>
+      <td>herbi</td>
+      <td>Artiodactyla</td>
+      <td>0.7</td>
+      <td>0.666667</td>
+      <td>20.0</td>
+      <td>0.42300</td>
+      <td>600.000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Or, you could write a function and use within Pandas:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">move_to_the_front</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">front_columns</span><span class="p">):</span>
+    <span class="n">column_names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">front_columns</span><span class="p">:</span>
+        <span class="n">column_names</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+    <span class="n">front_columns</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">column_names</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">front_columns</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">move_to_the_front</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;conservation&#39;</span><span class="p">,</span> <span class="s1">&#39;sleep_total&#39;</span><span class="p">])]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>conservation</th>
+      <th>sleep_total</th>
+      <th>name</th>
+      <th>genus</th>
+      <th>vore</th>
+      <th>order</th>
+      <th>sleep_rem</th>
+      <th>sleep_cycle</th>
+      <th>awake</th>
+      <th>brainwt</th>
+      <th>bodywt</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>lc</td>
+      <td>12.1</td>
+      <td>Cheetah</td>
+      <td>Acinonyx</td>
+      <td>carni</td>
+      <td>Carnivora</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>11.9</td>
+      <td>NaN</td>
+      <td>50.000</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>NaN</td>
+      <td>17.0</td>
+      <td>Owl monkey</td>
+      <td>Aotus</td>
+      <td>omni</td>
+      <td>Primates</td>
+      <td>1.8</td>
+      <td>NaN</td>
+      <td>7.0</td>
+      <td>0.01550</td>
+      <td>0.480</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>nt</td>
+      <td>14.4</td>
+      <td>Mountain beaver</td>
+      <td>Aplodontia</td>
+      <td>herbi</td>
+      <td>Rodentia</td>
+      <td>2.4</td>
+      <td>NaN</td>
+      <td>9.6</td>
+      <td>NaN</td>
+      <td>1.350</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>lc</td>
+      <td>14.9</td>
+      <td>Greater short-tailed shrew</td>
+      <td>Blarina</td>
+      <td>omni</td>
+      <td>Soricomorpha</td>
+      <td>2.3</td>
+      <td>0.133333</td>
+      <td>9.1</td>
+      <td>0.00029</td>
+      <td>0.019</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>domesticated</td>
+      <td>4.0</td>
+      <td>Cow</td>
+      <td>Bos</td>
+      <td>herbi</td>
+      <td>Artiodactyla</td>
+      <td>0.7</td>
+      <td>0.666667</td>
+      <td>20.0</td>
+      <td>0.42300</td>
+      <td>600.000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</div>
+<div class="section" id="column-names">
+<h2><strong>Column Names</strong><a class="headerlink" href="#column-names" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="renaming-columns">
+<h3>Renaming Columns<a class="headerlink" href="#renaming-columns" title="Permalink to this headline">¶</a></h3>
+<p>Columns can be renamed with Pandas’ <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.rename.html">rename</a> method and a dictionary, where you map the old column name to the new column name:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">df</span>
+ <span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;sleep_total&#39;</span><span class="p">,</span> <span class="s1">&#39;conservation&#39;</span><span class="p">]]</span>
+ <span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;animal&quot;</span><span class="p">,</span> <span class="s2">&quot;conservation&quot;</span><span class="p">:</span> <span class="s2">&quot;extinction_threat&quot;</span><span class="p">})</span>
+ <span class="o">.</span><span class="n">head</span><span class="p">()</span>
+ <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>animal</th>
+      <th>sleep_total</th>
+      <th>extinction_threat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Cheetah</td>
+      <td>12.1</td>
+      <td>lc</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Owl monkey</td>
+      <td>17.0</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Mountain beaver</td>
+      <td>14.4</td>
+      <td>nt</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Greater short-tailed shrew</td>
+      <td>14.9</td>
+      <td>lc</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Cow</td>
+      <td>4.0</td>
+      <td>domesticated</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Pyjanitor has a <a class="reference external" href="https://pyjanitor.readthedocs.io/reference/janitor.functions/janitor.rename_columns.html#janitor.rename_columns">rename_columns</a> function, which is just syntactic sugar for Pandas’ <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.rename.html">rename</a>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">df</span>
+ <span class="o">.</span><span class="n">select_columns</span><span class="p">([</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;sleep_total&#39;</span><span class="p">,</span> <span class="s1">&#39;conservation&#39;</span><span class="p">])</span>
+ <span class="o">.</span><span class="n">rename_columns</span><span class="p">({</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;animal&quot;</span><span class="p">,</span> <span class="s2">&quot;conservation&quot;</span><span class="p">:</span> <span class="s2">&quot;extinction_threat&quot;</span><span class="p">})</span>
+ <span class="o">.</span><span class="n">head</span><span class="p">()</span>
+ <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>animal</th>
+      <th>sleep_total</th>
+      <th>extinction_threat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Cheetah</td>
+      <td>12.1</td>
+      <td>lc</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Owl monkey</td>
+      <td>17.0</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Mountain beaver</td>
+      <td>14.4</td>
+      <td>nt</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Greater short-tailed shrew</td>
+      <td>14.9</td>
+      <td>lc</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Cow</td>
+      <td>4.0</td>
+      <td>domesticated</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>If you are retaining all columns, then Pandas’ <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.rename.html">rename</a> or Pyjanitor’s <a class="reference external" href="https://pyjanitor.readthedocs.io/reference/janitor.functions/janitor.rename_columns.html#janitor.rename_columns">rename_columns</a> is sufficient:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;animal&quot;</span><span class="p">,</span> <span class="s2">&quot;conservation&quot;</span><span class="p">:</span> <span class="s2">&quot;extinction_threat&quot;</span><span class="p">})</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>animal</th>
+      <th>genus</th>
+      <th>vore</th>
+      <th>order</th>
+      <th>extinction_threat</th>
+      <th>sleep_total</th>
+      <th>sleep_rem</th>
+      <th>sleep_cycle</th>
+      <th>awake</th>
+      <th>brainwt</th>
+      <th>bodywt</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Cheetah</td>
+      <td>Acinonyx</td>
+      <td>carni</td>
+      <td>Carnivora</td>
+      <td>lc</td>
+      <td>12.1</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>11.9</td>
+      <td>NaN</td>
+      <td>50.000</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Owl monkey</td>
+      <td>Aotus</td>
+      <td>omni</td>
+      <td>Primates</td>
+      <td>NaN</td>
+      <td>17.0</td>
+      <td>1.8</td>
+      <td>NaN</td>
+      <td>7.0</td>
+      <td>0.01550</td>
+      <td>0.480</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Mountain beaver</td>
+      <td>Aplodontia</td>
+      <td>herbi</td>
+      <td>Rodentia</td>
+      <td>nt</td>
+      <td>14.4</td>
+      <td>2.4</td>
+      <td>NaN</td>
+      <td>9.6</td>
+      <td>NaN</td>
+      <td>1.350</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Greater short-tailed shrew</td>
+      <td>Blarina</td>
+      <td>omni</td>
+      <td>Soricomorpha</td>
+      <td>lc</td>
+      <td>14.9</td>
+      <td>2.3</td>
+      <td>0.133333</td>
+      <td>9.1</td>
+      <td>0.00029</td>
+      <td>0.019</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Cow</td>
+      <td>Bos</td>
+      <td>herbi</td>
+      <td>Artiodactyla</td>
+      <td>domesticated</td>
+      <td>4.0</td>
+      <td>0.7</td>
+      <td>0.666667</td>
+      <td>20.0</td>
+      <td>0.42300</td>
+      <td>600.000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">rename_columns</span><span class="p">({</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;animal&quot;</span><span class="p">,</span> <span class="s2">&quot;conservation&quot;</span><span class="p">:</span> <span class="s2">&quot;extinction_threat&quot;</span><span class="p">})</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>animal</th>
+      <th>genus</th>
+      <th>vore</th>
+      <th>order</th>
+      <th>extinction_threat</th>
+      <th>sleep_total</th>
+      <th>sleep_rem</th>
+      <th>sleep_cycle</th>
+      <th>awake</th>
+      <th>brainwt</th>
+      <th>bodywt</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Cheetah</td>
+      <td>Acinonyx</td>
+      <td>carni</td>
+      <td>Carnivora</td>
+      <td>lc</td>
+      <td>12.1</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>11.9</td>
+      <td>NaN</td>
+      <td>50.000</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Owl monkey</td>
+      <td>Aotus</td>
+      <td>omni</td>
+      <td>Primates</td>
+      <td>NaN</td>
+      <td>17.0</td>
+      <td>1.8</td>
+      <td>NaN</td>
+      <td>7.0</td>
+      <td>0.01550</td>
+      <td>0.480</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Mountain beaver</td>
+      <td>Aplodontia</td>
+      <td>herbi</td>
+      <td>Rodentia</td>
+      <td>nt</td>
+      <td>14.4</td>
+      <td>2.4</td>
+      <td>NaN</td>
+      <td>9.6</td>
+      <td>NaN</td>
+      <td>1.350</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Greater short-tailed shrew</td>
+      <td>Blarina</td>
+      <td>omni</td>
+      <td>Soricomorpha</td>
+      <td>lc</td>
+      <td>14.9</td>
+      <td>2.3</td>
+      <td>0.133333</td>
+      <td>9.1</td>
+      <td>0.00029</td>
+      <td>0.019</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Cow</td>
+      <td>Bos</td>
+      <td>herbi</td>
+      <td>Artiodactyla</td>
+      <td>domesticated</td>
+      <td>4.0</td>
+      <td>0.7</td>
+      <td>0.666667</td>
+      <td>20.0</td>
+      <td>0.42300</td>
+      <td>600.000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</div>
+<div class="section" id="reformatting-all-column-names">
+<h3>Reformatting all Column Names<a class="headerlink" href="#reformatting-all-column-names" title="Permalink to this headline">¶</a></h3>
+<p>You can use python’s string functions to reformat column names within Pandas’ <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.rename.html">rename</a> function.</p>
+<p>Let’s convert all column names to uppercase:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span> <span class="o">=</span> <span class="nb">str</span><span class="o">.</span><span class="n">upper</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>NAME</th>
+      <th>GENUS</th>
+      <th>VORE</th>
+      <th>ORDER</th>
+      <th>CONSERVATION</th>
+      <th>SLEEP_TOTAL</th>
+      <th>SLEEP_REM</th>
+      <th>SLEEP_CYCLE</th>
+      <th>AWAKE</th>
+      <th>BRAINWT</th>
+      <th>BODYWT</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Cheetah</td>
+      <td>Acinonyx</td>
+      <td>carni</td>
+      <td>Carnivora</td>
+      <td>lc</td>
+      <td>12.1</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>11.9</td>
+      <td>NaN</td>
+      <td>50.000</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Owl monkey</td>
+      <td>Aotus</td>
+      <td>omni</td>
+      <td>Primates</td>
+      <td>NaN</td>
+      <td>17.0</td>
+      <td>1.8</td>
+      <td>NaN</td>
+      <td>7.0</td>
+      <td>0.01550</td>
+      <td>0.480</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Mountain beaver</td>
+      <td>Aplodontia</td>
+      <td>herbi</td>
+      <td>Rodentia</td>
+      <td>nt</td>
+      <td>14.4</td>
+      <td>2.4</td>
+      <td>NaN</td>
+      <td>9.6</td>
+      <td>NaN</td>
+      <td>1.350</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Greater short-tailed shrew</td>
+      <td>Blarina</td>
+      <td>omni</td>
+      <td>Soricomorpha</td>
+      <td>lc</td>
+      <td>14.9</td>
+      <td>2.3</td>
+      <td>0.133333</td>
+      <td>9.1</td>
+      <td>0.00029</td>
+      <td>0.019</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Cow</td>
+      <td>Bos</td>
+      <td>herbi</td>
+      <td>Artiodactyla</td>
+      <td>domesticated</td>
+      <td>4.0</td>
+      <td>0.7</td>
+      <td>0.666667</td>
+      <td>20.0</td>
+      <td>0.42300</td>
+      <td>600.000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Resources:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.loc.html">Pandas loc</a></p></li>
+<li><p><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.iloc.html#pandas.DataFrame.iloc">Pandas iloc</a></p></li>
+<li><p><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.rename.html">Pandas rename</a></p></li>
+<li><p><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.select_dtypes.html">Pandas select_dtypes</a></p></li>
+<li><p><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/general_utility_functions.html#dtype-introspection">Pandas api types</a></p></li>
+<li><p><a class="reference external" href="https://pyjanitor.readthedocs.io/reference/janitor.functions/janitor.select_columns.html#janitor.select_columns">Pyjanitor select_columns</a></p></li>
+<li><p><a class="reference external" href="https://pyjanitor.readthedocs.io/reference/janitor.functions/janitor.rename_columns.html#janitor.rename_columns">Pyjanitor rename_columns</a></p></li>
+<li><p><a class="reference external" href="https://pyjanitor.readthedocs.io/reference/janitor.functions/janitor.reorder_columns.html">Pyjanitor reorder_columns</a></p></li>
+<li><p>Based on Pandas 1.2.2 and Pyjanitor’s latest dev version 0.20.10</p></li>
+</ul>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        </div>
+    </div>
+    
+    
+    <div class='prev-next-bottom'>
+        
+    <a class='left-prev' id="prev-link" href="pandas.html" title="previous page">Data Wrangling with Pandas</a>
+
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Samuel Oranyeli<br/>
+        
+            &copy; Copyright 2020.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    
+  <script src="_static/js/index.d3f166471bb80abb5163.js"></script>
+
+
+    
+  </body>
+</html>

@@ -45,8 +45,6 @@
     <script src="_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="_static/sphinx-book-theme.d31b09fe5c1d09cb49b26a786de4a05d.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
@@ -56,6 +54,7 @@
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Replicating .SD in Python Datatable" href="replicate_SD_datatable.html" />
     <link rel="prev" title="Data Wrangling with Python Datatable" href="datatable.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -92,20 +91,6 @@
  </li>
 </ul>
 <ul class="current nav sidenav_l1">
- <li class="toctree-l1 collapsible-parent">
-  <a class="reference internal" href="content.html">
-   Content in Jupyter Book
-  </a>
-  <ul class="collapse-ul">
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks.html">
-     Content with notebooks
-    </a>
-   </li>
-  </ul>
-  <i class="fas fa-chevron-down">
-  </i>
- </li>
  <li class="toctree-l1 current active collapsible-parent">
   <a class="reference internal" href="datatable.html">
    Data Wrangling with Python Datatable
@@ -114,6 +99,25 @@
    <li class="toctree-l2 current active">
     <a class="current reference internal" href="#">
      Column Selection in Datatable
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="replicate_SD_datatable.html">
+     Replicating .SD in Python Datatable
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="pandas.html">
+   Data Wrangling with Pandas
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="python_pandas_column_selection.html">
+     Column Selection in Pandas (and Pyjanitor)
     </a>
    </li>
   </ul>
@@ -297,7 +301,7 @@
   <div class="section" id="column-selection-in-datatable">
 <h1>Column Selection in Datatable<a class="headerlink" href="#column-selection-in-datatable" title="Permalink to this headline">¶</a></h1>
 <p>This article highlights various ways to select columns in python datatable. The examples used here are based off the excellent <a class="reference external" href="https://suzan.rbind.io/2018/01/dplyr-tutorial-1/">article</a> by <a class="reference external" href="https://twitter.com/SuzanBaert">Susan Baert</a>.</p>
-<p>The data file can be accessed <a class="reference external" href="https://github.com/samukweku/data-wrangling-blog/raw/master/_notebooks/Data_files/msleep.txt">here</a></p>
+<p>The data file can be accessed <a class="reference external" href="https://github.com/samukweku/data_files/raw/master/msleep.txt">here</a></p>
 <div class="section" id="selecting-columns">
 <h2><strong>Selecting Columns</strong><a class="headerlink" href="#selecting-columns" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="the-basics">
@@ -307,7 +311,7 @@
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datatable</span> <span class="kn">import</span> <span class="n">dt</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">ltype</span><span class="p">,</span> <span class="n">stype</span>
 <span class="kn">import</span> <span class="nn">re</span>
 
-<span class="n">file_path</span> <span class="o">=</span> <span class="s2">&quot;https://github.com/samukweku/data-wrangling-blog/raw/master/_notebooks/Data_files/msleep.txt&quot;</span>
+<span class="n">file_path</span> <span class="o">=</span> <span class="s2">&quot;https://github.com/samukweku/data_files/raw/master/msleep.txt&quot;</span>
 <span class="n">DT</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">fread</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
 <span class="n">DT</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
 </pre></div>
@@ -1544,6 +1548,7 @@
     <div class='prev-next-bottom'>
         
     <a class='left-prev' id="prev-link" href="datatable.html" title="previous page">Data Wrangling with Python Datatable</a>
+    <a class='right-next' id="next-link" href="replicate_SD_datatable.html" title="next page">Replicating .SD in Python Datatable</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">

@@ -1,0 +1,46 @@
+Traceback (most recent call last):
+  File "/home/sam/miniforge3/envs/datatable/lib/python3.9/site-packages/jupyter_cache/executors/utils.py", line 51, in single_nb_execution
+    executenb(
+  File "/home/sam/miniforge3/envs/datatable/lib/python3.9/site-packages/nbclient/client.py", line 1087, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "/home/sam/miniforge3/envs/datatable/lib/python3.9/site-packages/nbclient/util.py", line 74, in wrapped
+    return just_run(coro(*args, **kwargs))
+  File "/home/sam/miniforge3/envs/datatable/lib/python3.9/site-packages/nbclient/util.py", line 53, in just_run
+    return loop.run_until_complete(coro)
+  File "/home/sam/miniforge3/envs/datatable/lib/python3.9/asyncio/base_events.py", line 642, in run_until_complete
+    return future.result()
+  File "/home/sam/miniforge3/envs/datatable/lib/python3.9/site-packages/nbclient/client.py", line 540, in async_execute
+    await self.async_execute_cell(
+  File "/home/sam/miniforge3/envs/datatable/lib/python3.9/site-packages/nbclient/client.py", line 832, in async_execute_cell
+    self._check_raise_for_error(cell, exec_reply)
+  File "/home/sam/miniforge3/envs/datatable/lib/python3.9/site-packages/nbclient/client.py", line 740, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply['content'])
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+df = fread('Data_files/iris.csv')
+df.head()
+------------------
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mValueError[0m                                Traceback (most recent call last)
+[0;32m<ipython-input-2-99e83c457f75>[0m in [0;36m<module>[0;34m[0m
+[0;32m----> 1[0;31m [0mdf[0m [0;34m=[0m [0mfread[0m[0;34m([0m[0;34m'Data_files/iris.csv'[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m      2[0m [0mdf[0m[0;34m.[0m[0mhead[0m[0;34m([0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+
+[0;32m~/miniforge3/envs/datatable/lib/python3.9/site-packages/datatable/utils/fread.py[0m in [0;36m_resolve_source_any[0;34m(src, tempfiles)[0m
+[1;32m    120[0m                 [0;32mif[0m [0mlogger[0m[0;34m:[0m[0;34m[0m[0;34m[0m[0m
+[1;32m    121[0m                     [0mlogger[0m[0;34m.[0m[0mdebug[0m[0;34m([0m[0;34m"Input is assumed to be a file name."[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0;32m--> 122[0;31m                 [0;32mreturn[0m [0m_resolve_source_file[0m[0;34m([0m[0msrc[0m[0;34m,[0m [0mtempfiles[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m    123[0m     [0;32melif[0m [0misinstance[0m[0;34m([0m[0msrc[0m[0;34m,[0m [0m_pathlike[0m[0;34m)[0m [0;32mor[0m [0mhasattr[0m[0;34m([0m[0msrc[0m[0;34m,[0m [0;34m"read"[0m[0;34m)[0m[0;34m:[0m[0;34m[0m[0;34m[0m[0m
+[1;32m    124[0m         [0;32mreturn[0m [0m_resolve_source_file[0m[0;34m([0m[0msrc[0m[0;34m,[0m [0mtempfiles[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+
+[0;32m~/miniforge3/envs/datatable/lib/python3.9/site-packages/datatable/utils/fread.py[0m in [0;36m_resolve_source_file[0;34m(file, tempfiles)[0m
+[1;32m    197[0m             [0;32mreturn[0m [0m_resolve_archive[0m[0;34m([0m[0mxpath[0m[0;34m,[0m [0mypath[0m[0;34m,[0m [0mtempfiles[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[1;32m    198[0m         [0;32melse[0m[0;34m:[0m[0;34m[0m[0;34m[0m[0m
+[0;32m--> 199[0;31m             raise ValueError("File %s`%s` does not exist"
+[0m[1;32m    200[0m                              % (escape(xpath), escape(ypath)))
+[1;32m    201[0m     [0;32mif[0m [0;32mnot[0m [0mos[0m[0;34m.[0m[0mpath[0m[0;34m.[0m[0misfile[0m[0;34m([0m[0mfile[0m[0;34m)[0m[0;34m:[0m[0;34m[0m[0;34m[0m[0m
+
+[0;31mValueError[0m: File /home/sam/github_cloned_projects/data-wrangling/Data_files/iris.csv does not exist
+ValueError: File /home/sam/github_cloned_projects/data-wrangling/Data_files/iris.csv does not exist
+
