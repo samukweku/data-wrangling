@@ -767,7 +767,7 @@
 </table>
 </div></div></div>
 </div>
-<p>There are scenarios where you may want to select rows where the value is nearly a given value. You may also want to specify a tolerance value to indicate how far the values can be. <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.isclose.html">numpy.is_close</a> is a handy function for this:</p>
+<p>There are scenarios where you may want to select rows where the value is nearly a given value. You may also want to specify a tolerance value to indicate how far the values can be. <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.isclose.html">numpy.isclose</a> is a handy function for this:</p>
 <p>Let’s say the tolerance should be within one standard deviation of 17:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1255,7 +1255,7 @@
 </table>
 </div></div></div>
 </div>
-<p>However, this can become unwieldy, as the number of animals increase. The <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.isin.html">isin</a> method is handy for this:</p>
+<p>However, this can become unwieldy, as the number of animals increase. The <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.isin.html">isin</a> method makes this easy:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">order</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s2">&quot;Didelphimorphia&quot;</span><span class="p">,</span> <span class="s2">&quot;Diprotodontia&quot;</span><span class="p">]),</span> <span class="p">[</span><span class="s2">&quot;order&quot;</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;sleep_total&quot;</span><span class="p">]]</span>
@@ -1734,7 +1734,7 @@
 </table>
 </div></div></div>
 </div>
-<p>The <a class="reference external" href="https://pyjanitor.readthedocs.io/reference/janitor.functions/janitor.filter_column_isin.html#janitor.filter_column_isin">filter_column_isin</a> from <a class="reference external" href="https://pyjanitor.readthedocs.io/index.html">pyjanitor</a>, which is just a wrapper around <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.isin.html">isin</a>,  is also handy here:</p>
+<p>The <a class="reference external" href="https://pyjanitor.readthedocs.io/reference/janitor.functions/janitor.filter_column_isin.html#janitor.filter_column_isin">filter_column_isin</a> from <a class="reference external" href="https://pyjanitor.readthedocs.io/index.html">pyjanitor</a>, which is just a wrapper around <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.isin.html">isin</a>,  is an alternative:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">filter</span><span class="p">((</span><span class="s1">&#39;order&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;sleep_total&#39;</span><span class="p">))</span>
@@ -1838,7 +1838,7 @@
 </div>
 <div class="section" id="filtering-rows-based-on-regex">
 <h3>Filtering Rows Based on Regex<a class="headerlink" href="#filtering-rows-based-on-regex" title="Permalink to this headline">¶</a></h3>
-<p>There are scenarios where you need to filter string columns based on partial matches; Pandas has a wealth of <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/user_guide/text.html#method-summary">string methods</a> that come in handy here, and support regular expressions.</p>
+<p>There are scenarios where you need to filter string columns based on partial matches; Pandas has a wealth of <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/user_guide/text.html#method-summary">string methods</a> that support regular expressions, and can be used in these situations.</p>
 <p>Let’s filter for rows where <code class="docutils literal notranslate"><span class="pre">mouse</span></code> can be found in the column <code class="docutils literal notranslate"><span class="pre">name</span></code>:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
