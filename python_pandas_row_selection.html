@@ -1734,7 +1734,7 @@
 </table>
 </div></div></div>
 </div>
-<p>The <a class="reference external" href="https://pyjanitor.readthedocs.io/reference/janitor.functions/janitor.filter_column_isin.html#janitor.filter_column_isin">filter_column_isin</a> from <a class="reference external" href="https://pyjanitor.readthedocs.io/index.html">pyjanitor</a>, which is just a wrapper around <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.isin.html">isin</a>,  is an alternative:</p>
+<p>The <a class="reference external" href="https://pyjanitor.readthedocs.io/reference/janitor.functions/janitor.filter_column_isin.html#janitor.filter_column_isin">filter_column_isin</a> function from <a class="reference external" href="https://pyjanitor.readthedocs.io/index.html">pyjanitor</a>, which is just a wrapper around <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.isin.html">isin</a>,  is an alternative:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">filter</span><span class="p">((</span><span class="s1">&#39;order&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;sleep_total&#39;</span><span class="p">))</span>
@@ -3797,7 +3797,7 @@ is a wrapper around the <a class="reference external" href="https://pandas.pydat
 </table>
 </div></div></div>
 </div>
-<p>Another example below that uses a different select option:</p>
+<p>Another example below that uses a different option when selecting the columns to filter at:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">select_columns</span><span class="p">([</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> 
