@@ -1,7 +1,7 @@
 # Book settings
 # Learn more at https://jupyterbook.org/customize/config.html
 
-title: Data Wrangling Cookbook
+title: Data Wrangling Recipes
 author: Samuel Oranyeli
 # logo: logo.png
 
@@ -9,15 +9,6 @@ author: Samuel Oranyeli
 # See https://jupyterbook.org/content/execute.html
 execute:
   execute_notebooks: force
-
-# Define the name of the latex output file for PDF builds
-latex:
-  latex_documents:
-    targetname: book.tex
-
-# Add a bibtex file so that we can create citations
-bibtex_bibfiles:
-  - references.bib
 
 # Information about where the book exists on the web
 repository:

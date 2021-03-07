@@ -2,9 +2,12 @@
 # Learn more at https://jupyterbook.org/customize/toc.html
 #
 - file: intro
-- file: content
-  sections:
-    - file: notebooks
 - file: datatable
   sections:
     - file: python_datatable_column_selection
+    - file: python_datatable_row_selection
+    - file: replicate_SD_datatable
+- file: pandas
+  sections:
+    - file: python_pandas_column_selection
+    - file: python_pandas_row_selection
