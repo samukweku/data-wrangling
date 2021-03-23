@@ -26,7 +26,7 @@
 
     
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/sphinx-book-theme.37f24b989f4638ff9c27c22dc7559d4f.css" type="text/css" />
+    <link rel="stylesheet" href="_static/sphinx-book-theme.c441f2ba0852f4cabcb80105e3a46ae6.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
@@ -109,6 +109,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="replicate_SD_datatable.html">
      Replicating .SD in Python Datatable
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="python_datatable_vs_R_datatable.html">
+     Python datatable vs R data.table comparison
     </a>
    </li>
   </ul>
@@ -233,7 +238,8 @@
         <div class="d-none d-md-block col-md-2 bd-toc show">
             
         <div class="tocsection onthispage pt-5 pb-3">
-            <i class="fas fa-list"></i> Contents
+            <i class="fas fa-list"></i>
+            Contents
         </div>
         <nav id="bd-toc-nav">
             <ul class="nav section-nav flex-column">
@@ -457,22 +463,15 @@
 </div>
 </div></div>
 </div>
-<p>There are scenarios where you may want to select rows where the value is nearly a given value. You may also want to specify a tolerance value to indicate how far the values can be. At the moment, there is no <code class="docutils literal notranslate"><span class="pre">near</span></code> function in <a class="reference external" href="https://datatable.readthedocs.io/en/latest/api/index-api.html">datatable</a>; however, you could create a temporary function to do this:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">near</span><span class="p">(</span><span class="n">column</span><span class="p">,</span> <span class="n">number</span><span class="p">,</span> <span class="n">tolerance</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">dt</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="n">column</span><span class="p">],</span> <span class="n">number</span><span class="p">,</span> <span class="n">atol</span> <span class="o">=</span> <span class="n">tolerance</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<p>Let’s say the tolerance should be within one standard deviation of 17:</p>
+<p>There are scenarios where you may want to select rows where the value is nearly a given value. You may also want to specify a tolerance value to indicate how far the values can be.</p>
+<p>This can be replicated with the <a class="reference external" href="https://datatable.readthedocs.io/en/latest/api/math/isclose.html">isclose</a> function in the <a class="reference external" href="https://datatable.readthedocs.io/en/latest/api/math.html">datatable.math</a> submodule.</p>
+<p>Let’s assume that the tolerance should be within one standard deviation of 17:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># calculate tolerance</span>
 <span class="n">tolerance</span> <span class="o">=</span> <span class="n">DT</span><span class="p">[</span><span class="s1">&#39;sleep_total&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sd1</span><span class="p">()</span>
 
-<span class="n">DT</span><span class="p">[</span><span class="n">near</span><span class="p">(</span><span class="s1">&#39;sleep_total&#39;</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="n">tolerance</span><span class="p">),</span>  <span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;sleep_total&#39;</span><span class="p">]]</span>
+<span class="n">DT</span><span class="p">[</span><span class="n">dt</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">sleep_total</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="n">atol</span> <span class="o">=</span> <span class="n">tolerance</span><span class="p">),</span>  <span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;sleep_total&#39;</span><span class="p">]]</span>
 </pre></div>
 </div>
 </div>
