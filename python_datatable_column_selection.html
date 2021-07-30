@@ -5,9 +5,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Column Selection in Datatable &#8212; Data Wrangling Cookbook</title>
+    <title>Column Selection in Datatable &#8212; Data Wrangling Recipes</title>
     
-  <link rel="stylesheet" href="_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
+  <link href="_static/css/theme.css" rel="stylesheet" />
+  <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
 
     
   <link rel="stylesheet"
@@ -19,14 +20,10 @@
 
     
       
-  <link rel="stylesheet"
-    href="_static/vendor/open-sans_all/1.44.1/index.css">
-  <link rel="stylesheet"
-    href="_static/vendor/lato_latin-ext/1.44.1/index.css">
 
     
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/sphinx-book-theme.40e2e510f6b7d1648584402491bb10fe.css" type="text/css" />
+    <link rel="stylesheet" href="_static/sphinx-book-theme.e8e5499552300ddf5d7adccae7cc3b70.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
@@ -34,7 +31,7 @@
     <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
     <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
     
-  <link rel="preload" as="script" href="_static/js/index.d3f166471bb80abb5163.js">
+  <link rel="preload" as="script" href="_static/js/index.1c5a1a01449ed65a7b51.js">
 
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
@@ -44,9 +41,7 @@
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="_static/sphinx-book-theme.d31b09fe5c1d09cb49b26a786de4a05d.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
     <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
@@ -56,15 +51,16 @@
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Filtering Rows in Datatable" href="python_datatable_row_selection.html" />
     <link rel="prev" title="Data Wrangling with Python Datatable" href="datatable.html" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
-
-
-
+    
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
     
 
     <div class="container-xl">
@@ -73,55 +69,82 @@
 <div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
     
         <div class="navbar-brand-box">
-<a class="navbar-brand text-wrap" href="index.html">
-  
-  
-  <h1 class="site-logo" id="site-title">Data Wrangling Cookbook</h1>
-  
-</a>
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+      
+      <h1 class="site-logo" id="site-title">Data Wrangling Recipes</h1>
+      
+    </a>
 </div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
   <i class="icon fas fa-search"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
-</form>
-<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
-    <ul class="nav sidenav_l1">
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="intro.html">
-   Data Wrangling Cookbook
+   Data Wrangling Recipes
   </a>
  </li>
 </ul>
-<ul class="current nav sidenav_l1">
- <li class="toctree-l1 collapsible-parent">
-  <a class="reference internal" href="content.html">
-   Content in Jupyter Book
-  </a>
-  <ul class="collapse-ul">
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks.html">
-     Content with notebooks
-    </a>
-   </li>
-  </ul>
-  <i class="fas fa-chevron-down">
-  </i>
- </li>
- <li class="toctree-l1 current active collapsible-parent">
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active has-children">
   <a class="reference internal" href="datatable.html">
    Data Wrangling with Python Datatable
   </a>
-  <ul class="current collapse-ul">
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
    <li class="toctree-l2 current active">
     <a class="current reference internal" href="#">
      Column Selection in Datatable
     </a>
    </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="python_datatable_row_selection.html">
+     Filtering Rows in Datatable
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="replicate_SD_datatable.html">
+     Replicating .SD in Python Datatable
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="python_datatable_vs_R_datatable.html">
+     Python datatable vs R data.table comparison
+    </a>
+   </li>
   </ul>
-  <i class="fas fa-chevron-down">
-  </i>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="pandas.html">
+   Data Wrangling with Pandas
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="python_pandas_column_selection.html">
+     Column Selection in Pandas - and Pyjanitor
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="python_pandas_row_selection.html">
+     Filtering Rows in Pandas
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
+    </div>
 </nav> <!-- To handle the deprecated key -->
 
 <div class="navbar_extra_footer">
@@ -137,21 +160,21 @@
           
 <main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
     
-    <div class="row topbar fixed-top container-xl">
-    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
-    </div>
-    <div class="col pl-2 topbar-main">
-        
-        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
-            data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
-            aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
-            title="Toggle navigation" data-toggle="tooltip" data-placement="left">
-            <i class="fas fa-bars"></i>
-            <i class="fas fa-arrow-left"></i>
-            <i class="fas fa-arrow-up"></i>
-        </button>
-        
-        
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
 <div class="dropdown-buttons-trigger">
     <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
             class="fas fa-download"></i></button>
@@ -169,7 +192,7 @@
     </div>
 </div>
 
-        <!-- Source interaction buttons -->
+            <!-- Source interaction buttons -->
 
 <div class="dropdown-buttons-trigger">
     <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
@@ -187,14 +210,14 @@
     </div>
 </div>
 
+            <!-- Full screen (wrap in <a> to have style consistency -->
 
-        <!-- Full screen (wrap in <a> to have style consistency -->
-        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-                data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
-                title="Fullscreen mode"><i
-                    class="fas fa-expand"></i></button></a>
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
 
-        <!-- Launch buttons -->
+            <!-- Launch buttons -->
 
 <div class="dropdown-buttons-trigger">
     <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
@@ -213,16 +236,16 @@
     </div>
 </div>
 
-    </div>
-
-    <!-- Table of contents -->
-    <div class="d-none d-md-block col-md-2 bd-toc show">
-        
-        <div class="tocsection onthispage pt-5 pb-3">
-            <i class="fas fa-list"></i> Contents
         </div>
-        <nav id="bd-toc-nav">
-            <ul class="nav section-nav flex-column">
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav">
+                <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#selecting-columns">
    <strong>
@@ -285,8 +308,8 @@
  </li>
 </ul>
 
-        </nav>
-        
+            </nav>
+        </div>
     </div>
 </div>
     <div id="main-content" class="row">
@@ -296,7 +319,8 @@
                 
   <div class="section" id="column-selection-in-datatable">
 <h1>Column Selection in Datatable<a class="headerlink" href="#column-selection-in-datatable" title="Permalink to this headline">¶</a></h1>
-<p>This article highlights various ways to select columns in python datatable. The examples used here are based off the excellent <a class="reference external" href="https://suzan.rbind.io/2018/01/dplyr-tutorial-1/">article</a> by <a class="reference external" href="https://twitter.com/SuzanBaert">Susan Baert</a>.</p>
+<p><em>Updated July 30, 2021</em></p>
+<p>This article highlights various ways to select columns in python <a class="reference external" href="https://datatable.readthedocs.io/en/latest/">datatable</a>. The examples used here are based off the excellent <a class="reference external" href="https://suzan.rbind.io/2018/01/dplyr-tutorial-1/">article</a> by <a class="reference external" href="https://twitter.com/SuzanBaert">Susan Baert</a>.</p>
 <p>The data file can be accessed <a class="reference external" href="https://github.com/samukweku/data-wrangling-blog/raw/master/_notebooks/Data_files/msleep.txt">here</a></p>
 <div class="section" id="selecting-columns">
 <h2><strong>Selecting Columns</strong><a class="headerlink" href="#selecting-columns" title="Permalink to this headline">¶</a></h2>
@@ -304,7 +328,7 @@
 <h3>The Basics<a class="headerlink" href="#the-basics" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datatable</span> <span class="kn">import</span> <span class="n">dt</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">ltype</span><span class="p">,</span> <span class="n">stype</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datatable</span> <span class="kn">import</span> <span class="n">dt</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">Type</span>
 <span class="kn">import</span> <span class="nn">re</span>
 
 <span class="n">file_path</span> <span class="o">=</span> <span class="s2">&quot;https://github.com/samukweku/data-wrangling-blog/raw/master/_notebooks/Data_files/msleep.txt&quot;</span>
@@ -323,12 +347,15 @@
 .datatable .int     { background: #5D9E5D; }
 .datatable .float   { background: #4040CC; }
 .datatable .str     { background: #CC4040; }
+.datatable .time    { background: #40CC40; }
 .datatable .row_index {  background: var(--jp-border-color3);  border-right: 1px solid var(--jp-border-color0);  color: var(--jp-ui-font-color3);  font-size: 9px;}
+.datatable .frame tbody td { text-align: left; }
 .datatable .frame tr.coltypes .row_index {  background: var(--jp-border-color0);}
 .datatable th:nth-child(2) { padding-left: 12px; }
 .datatable .hellipsis {  color: var(--jp-cell-editor-border-color);}
 .datatable .vellipsis {  background: var(--jp-layout-color0);  color: var(--jp-cell-editor-border-color);}
 .datatable .na {  color: var(--jp-cell-editor-border-color);  font-size: 80%;}
+.datatable .sp {  opacity: 0.25;}
 .datatable .footer { font-size: 9px; }
 .datatable .frame_dimensions {  background: var(--jp-border-color3);  border-top: 1px solid var(--jp-border-color0);  color: var(--jp-ui-font-color3);  display: inline-block;  opacity: 0.6;  padding: 1px 10px 1px 5px;}
 </style>
@@ -908,10 +935,10 @@
 </div>
 </div></div>
 </div>
-<p>You can also pass datatable’s <a class="reference external" href="https://datatable.readthedocs.io/en/latest/api/stype.html">stype</a> or <a class="reference external" href="https://datatable.readthedocs.io/en/latest/api/ltype.html">ltype</a> data types:</p>
+<p>You can also pass datatable’s <a class="reference external" href="https://datatable.readthedocs.io/en/latest/api/type.html">Type</a>:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">DT</span><span class="p">[:,</span> <span class="n">ltype</span><span class="o">.</span><span class="n">str</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">DT</span><span class="p">[:,</span> <span class="n">Type</span><span class="o">.</span><span class="n">str32</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -938,7 +965,7 @@
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">DT</span><span class="p">[:,</span> <span class="n">stype</span><span class="o">.</span><span class="n">float64</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">DT</span><span class="p">[:,</span> <span class="n">Type</span><span class="o">.</span><span class="n">float64</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -992,12 +1019,11 @@
 </div>
 </div></div>
 </div>
-<p>An alternative is to preselect the columns you intend to keep:</p>
+<p>An alternative is to preselect the columns you intend to keep, by using the Type <a class="reference external" href="https://datatable.readthedocs.io/en/latest/api/type.html#properties">properties</a>::</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># creates a list of booleans</span>
-<span class="n">columns_to_select</span> <span class="o">=</span> <span class="p">[</span><span class="n">dtype</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="n">ltype</span><span class="o">.</span><span class="n">int</span><span class="p">,</span> <span class="n">ltype</span><span class="o">.</span><span class="n">real</span><span class="p">)</span>
-                     <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">dtype</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">DT</span><span class="o">.</span><span class="n">names</span><span class="p">,</span> <span class="n">DT</span><span class="o">.</span><span class="n">ltypes</span><span class="p">)]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># creates a sequence of booleans</span>
+<span class="n">columns_to_select</span> <span class="o">=</span> <span class="p">[</span><span class="ow">not</span> <span class="n">dtype</span><span class="o">.</span><span class="n">is_numeric</span> <span class="k">for</span> <span class="n">dtype</span> <span class="ow">in</span> <span class="n">DT</span><span class="o">.</span><span class="n">types</span><span class="p">]</span>
 
 <span class="n">DT</span><span class="p">[:,</span> <span class="n">columns_to_select</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
 </pre></div>
@@ -1028,7 +1054,7 @@
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">matching_frames</span> <span class="o">=</span> <span class="p">[</span><span class="n">frame</span> <span class="k">for</span> <span class="n">frame</span> <span class="ow">in</span> <span class="n">DT</span> 
-                   <span class="k">if</span> <span class="n">frame</span><span class="o">.</span><span class="n">ltypes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="n">ltype</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="n">ltype</span><span class="o">.</span><span class="n">int</span><span class="p">)]</span>
+                   <span class="k">if</span> <span class="ow">not</span> <span class="n">frame</span><span class="o">.</span><span class="n">type</span><span class="o">.</span><span class="n">is_numeric</span><span class="p">]</span>
                    
 <span class="n">dt</span><span class="o">.</span><span class="n">cbind</span><span class="p">(</span><span class="n">matching_frames</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
 </pre></div>
@@ -1092,9 +1118,9 @@
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># returns a list of booleans</span>
-<span class="n">columns_to_select</span> <span class="o">=</span> <span class="p">[</span><span class="n">ltype</span> <span class="ow">in</span> <span class="p">(</span><span class="n">ltype</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="n">ltype</span><span class="o">.</span><span class="n">int</span><span class="p">)</span> 
-                     <span class="ow">and</span> <span class="n">DT</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">10</span>
-                     <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">ltype</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">DT</span><span class="o">.</span><span class="n">names</span><span class="p">,</span> <span class="n">DT</span><span class="o">.</span><span class="n">ltypes</span><span class="p">)]</span>
+<span class="n">columns_to_select</span> <span class="o">=</span> <span class="p">[</span><span class="n">dtype</span><span class="o">.</span><span class="n">is_numeric</span> 
+                     <span class="ow">and</span> <span class="n">DT</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">mean1</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">10</span>
+                     <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">dtype</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">DT</span><span class="o">.</span><span class="n">names</span><span class="p">,</span> <span class="n">DT</span><span class="o">.</span><span class="n">types</span><span class="p">)]</span>
                      
 <span class="n">DT</span><span class="p">[:,</span> <span class="n">columns_to_select</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
 </pre></div>
@@ -1121,14 +1147,14 @@
 </div>
 </div></div>
 </div>
-<p>The code above preselects the columns before passing it to datatable. Note the use of <code class="docutils literal notranslate"><span class="pre">[0,0]</span></code> to return a scalar value; this allows us to compare with the scalar value <code class="docutils literal notranslate"><span class="pre">10</span></code>.</p>
+<p>The code above preselects the columns before passing it to datatable. <code class="docutils literal notranslate"><span class="pre">mean1</span></code> returns a scalar value; this allows us to compare with the scalar value <code class="docutils literal notranslate"><span class="pre">10</span></code>.</p>
 <p>Alternatively, in the list comprehension, instead of a list of booleans, you could return the column names:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">columns_to_select</span> <span class="o">=</span> <span class="p">[</span><span class="n">name</span>
-                     <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">ltype</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">DT</span><span class="o">.</span><span class="n">names</span><span class="p">,</span> <span class="n">DT</span><span class="o">.</span><span class="n">ltypes</span><span class="p">)</span>
-                     <span class="k">if</span> <span class="n">ltype</span> <span class="ow">in</span> <span class="p">(</span><span class="n">ltype</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="n">ltype</span><span class="o">.</span><span class="n">int</span><span class="p">)</span>
-                     <span class="ow">and</span> <span class="n">DT</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">]</span>
+                     <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">dtype</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">DT</span><span class="o">.</span><span class="n">names</span><span class="p">,</span> <span class="n">DT</span><span class="o">.</span><span class="n">types</span><span class="p">)</span>
+                     <span class="k">if</span> <span class="n">dtype</span><span class="o">.</span><span class="n">is_numeric</span>
+                     <span class="ow">and</span> <span class="n">DT</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">mean1</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">]</span>
                      
 <span class="n">DT</span><span class="p">[:,</span> <span class="n">columns_to_select</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
 </pre></div>
@@ -1159,8 +1185,8 @@
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">matching_frames</span> <span class="o">=</span> <span class="p">[</span><span class="n">frame</span> <span class="k">for</span> <span class="n">frame</span> <span class="ow">in</span> <span class="n">DT</span> 
-                   <span class="k">if</span> <span class="n">frame</span><span class="o">.</span><span class="n">ltypes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="p">(</span><span class="n">ltype</span><span class="o">.</span><span class="n">int</span><span class="p">,</span> <span class="n">ltype</span><span class="o">.</span><span class="n">real</span><span class="p">)</span> 
-                   <span class="ow">and</span> <span class="n">frame</span><span class="o">.</span><span class="n">mean</span><span class="p">()[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">]</span>
+                   <span class="k">if</span> <span class="n">frame</span><span class="o">.</span><span class="n">type</span><span class="o">.</span><span class="n">is_numeric</span> 
+                   <span class="ow">and</span> <span class="n">frame</span><span class="o">.</span><span class="n">mean1</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">]</span>
                    
 <span class="n">dt</span><span class="o">.</span><span class="n">cbind</span><span class="p">(</span><span class="n">matching_frames</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
 </pre></div>
@@ -1219,7 +1245,7 @@
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># returns a list of booleans</span>
-<span class="n">columns_to_select</span> <span class="o">=</span> <span class="p">[</span><span class="n">frame</span><span class="o">.</span><span class="n">nunique</span><span class="p">()[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">10</span> <span class="k">for</span> <span class="n">frame</span> <span class="ow">in</span> <span class="n">DT</span><span class="p">]</span>
+<span class="n">columns_to_select</span> <span class="o">=</span> <span class="p">[</span><span class="n">frame</span><span class="o">.</span><span class="n">nunique1</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">10</span> <span class="k">for</span> <span class="n">frame</span> <span class="ow">in</span> <span class="n">DT</span><span class="p">]</span>
 
 <span class="n">DT</span><span class="p">[:,</span> <span class="n">columns_to_select</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
 </pre></div>
@@ -1249,7 +1275,7 @@
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">matching_frames</span> <span class="o">=</span> <span class="p">[</span><span class="n">frame</span> <span class="k">for</span> <span class="n">frame</span> <span class="ow">in</span> <span class="n">DT</span> 
-                   <span class="k">if</span> <span class="n">frame</span><span class="o">.</span><span class="n">nunique</span><span class="p">()[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">]</span>
+                   <span class="k">if</span> <span class="n">frame</span><span class="o">.</span><span class="n">nunique1</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">]</span>
                    
 <span class="n">dt</span><span class="o">.</span><span class="n">cbind</span><span class="p">(</span><span class="n">matching_frames</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
 </pre></div>
@@ -1509,7 +1535,7 @@
 <p>Resources:</p>
 <ul class="simple">
 <li><p><a class="reference external" href="https://datatable.readthedocs.io/en/latest/">datatable docs</a></p></li>
-<li><p>Based on datatable version <code class="docutils literal notranslate"><span class="pre">1.0.0a0+build.1612992576</span></code></p></li>
+<li><p>Based on datatable version <code class="docutils literal notranslate"><span class="pre">1.1.0a0+build.1627608562</span></code></p></li>
 </ul>
 </div>
 </div>
@@ -1537,14 +1563,15 @@
 
               </div>
               
-        </div>
-    </div>
-    
-    
-    <div class='prev-next-bottom'>
         
+        <div class='prev-next-bottom'>
+            
     <a class='left-prev' id="prev-link" href="datatable.html" title="previous page">Data Wrangling with Python Datatable</a>
+    <a class='right-next' id="next-link" href="python_datatable_row_selection.html" title="next page">Filtering Rows in Datatable</a>
 
+        </div>
+        
+        </div>
     </div>
     <footer class="footer mt-5 mt-md-0">
     <div class="container">
@@ -1552,7 +1579,7 @@
         
           By Samuel Oranyeli<br/>
         
-            &copy; Copyright 2020.<br/>
+            &copy; Copyright 2021.<br/>
       </p>
     </div>
   </footer>
@@ -1561,11 +1588,9 @@
 
       </div>
     </div>
+  
+  <script src="_static/js/index.1c5a1a01449ed65a7b51.js"></script>
 
-    
-  <script src="_static/js/index.d3f166471bb80abb5163.js"></script>
-
-
-    
+  
   </body>
 </html>
