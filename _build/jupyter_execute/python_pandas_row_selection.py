@@ -3,6 +3,8 @@
 
 # # Filtering Rows in Pandas
 
+# *Updated July 30 2021*
+
 # This article highlights various ways to filter rows in [Pandas](https://pandas.pydata.org/docs/user_guide/index.html#user-guide). The examples used here are based off the excellent [article](https://suzan.rbind.io/2018/02/dplyr-tutorial-3/) by [Susan Baert](https://twitter.com/SuzanBaert).
 # 
 # The data file can be accessed [here](https://github.com/samukweku/data_files/raw/master/msleep.txt)
@@ -50,7 +52,7 @@ df.filter(["name", "sleep_total"]).query('sleep_total > 18')
 # In[5]:
 
 
-df.select_columns(["name", "sleep_total"]).filter_on('sleep_total > 18')
+df.select_columns("name", "sleep_total").filter_on('sleep_total > 18')
 
 
 # ```{note}
@@ -171,7 +173,8 @@ df.loc[df.order.isin(["Didelphimorphia", "Diprotodontia"]), ["order", "name", "s
 # In[18]:
 
 
-(df.loc[~df.order.isin(("Rodentia", "Carnivora", "Primates")),  ['order', 'name', 'sleep_total']]
+(df.loc[~df.order.isin(("Rodentia", "Carnivora", "Primates")),  
+        ['order', 'name', 'sleep_total']]
    .head(10)
 )
 
@@ -233,7 +236,10 @@ df.loc[df['name'].str.contains('mouse', case = False), ['name', 'sleep_total']]
 # In[23]:
 
 
-df.filter(['name', 'sleep_total']).query('name.str.contains("mouse", case = False)', engine = 'python')
+(df.filter(['name', 'sleep_total'])
+   .query('name.str.contains("mouse", case = False)', 
+          engine = 'python')
+)
 
 
 # ### Filtering Rows based on Multiple Conditions
@@ -255,7 +261,7 @@ df.select_columns(columns).loc[rows]
 # In[25]:
 
 
-(df.select_columns(["name", "order", slice("sleep_total", "bodywt")])
+(df.select_columns("name", "order", slice("sleep_total", "bodywt"))
    .query('bodywt > 100 and (sleep_total > 15 or order != "Carnivora")')
 )
 
@@ -333,17 +339,19 @@ df.loc[rows, columns]
 # In[32]:
 
 
-rows = df.conservation.notna()
-
-columns = ["name", slice("conservation", "sleep_cycle")]
-
-df.select_columns(columns).loc[rows].head(10)
+(df.select_columns("name", slice("conservation", "sleep_cycle"))
+   .filter_on('conservation.notna()')
+   .head(10)
+)
 
 
 # In[33]:
 
 
-df.select_columns(columns).query('conservation.notna()', engine = 'python').head(10)
+(df.select_columns("name", slice("conservation", "sleep_cycle"))
+   .query('conservation.notna()', engine = 'python')
+   .head(10)
+)
 
 
 # ## Filtering across Multiple Columns
@@ -357,7 +365,7 @@ df.select_columns(columns).query('conservation.notna()', engine = 'python').head
 # In[34]:
 
 
-(df.select_columns([slice('name', 'order'), 'sleep_total'])
+(df.select_columns(slice('name', 'order'), 'sleep_total')
    .drop(columns='vore')
    .loc[lambda df: df.select_dtypes('object')
                      .transform(lambda x: x.str.contains('Ca'))
@@ -390,7 +398,7 @@ def filter_rows(df, dtype, columns, condition, any_True = True):
 # In[36]:
 
 
-(df.select_columns([slice('name', 'order'), 'sleep_total'])
+(df.select_columns(slice('name', 'order'), 'sleep_total')
    .drop(columns = 'vore')
    .pipe(filter_rows,
          dtype = 'object',
@@ -406,7 +414,7 @@ def filter_rows(df, dtype, columns, condition, any_True = True):
 # In[37]:
 
 
-(df.select_columns(['name', slice('sleep_total', 'bodywt')])
+(df.select_columns('name', slice('sleep_total', 'bodywt'))
    .pipe(filter_rows,
          dtype = 'number',
          columns = None,
@@ -422,7 +430,7 @@ def filter_rows(df, dtype, columns, condition, any_True = True):
 # In[38]:
 
 
-(df.select_columns(['name', slice('sleep_total', 'bodywt')])
+(df.select_columns('name', slice('sleep_total', 'bodywt'))
    .drop(columns = 'awake')
    .pipe(filter_rows,
          dtype = 'number',
@@ -438,7 +446,7 @@ def filter_rows(df, dtype, columns, condition, any_True = True):
 # In[39]:
 
 
-(df.select_columns([slice('name', 'order'), slice('sleep_total', 'sleep_rem')])
+(df.select_columns(slice('name', 'order'), slice('sleep_total', 'sleep_rem'))
    .pipe(filter_rows,
          dtype = "object",
          columns = None,
@@ -455,9 +463,9 @@ def filter_rows(df, dtype, columns, condition, any_True = True):
 # In[40]:
 
 
-(df.select_columns(['name', 
+(df.select_columns('name', 
                     slice('sleep_total', 'sleep_rem'), 
-                    slice('brainwt', 'bodywt')]
+                    slice('brainwt', 'bodywt')
                     )
    .loc[lambda df: df.filter(['sleep_rem', 'sleep_total'])
                      .gt(5)
@@ -471,9 +479,9 @@ def filter_rows(df, dtype, columns, condition, any_True = True):
 # In[41]:
 
 
-(df.select_columns(['name', 
+(df.select_columns('name', 
                     slice('sleep_total', 'sleep_rem'), 
-                    slice('brainwt', 'bodywt')]
+                    slice('brainwt', 'bodywt')
                     )
    .query('sleep_total > 5 and sleep_rem > 5')
 )
@@ -502,9 +510,9 @@ def filter_rows(df, dtype, columns, condition, any_True = True):
 # In[43]:
 
 
-(df.select_columns(['name', 
+(df.select_columns('name', 
                     slice('sleep_total', 'sleep_rem'), 
-                    slice('brainwt', 'bodywt')]
+                    slice('brainwt', 'bodywt')
                     )
    .loc[lambda df: df.filter(like='sleep')
                      .gt(5)
@@ -516,9 +524,9 @@ def filter_rows(df, dtype, columns, condition, any_True = True):
 # In[44]:
 
 
-(df.select_columns(['name', 
+(df.select_columns('name', 
                     slice('sleep_total', 'sleep_rem'), 
-                    slice('brainwt', 'bodywt')]
+                    slice('brainwt', 'bodywt')
                     )
    .pipe(filter_rows,
          dtype = None,
@@ -532,5 +540,5 @@ def filter_rows(df, dtype, columns, condition, any_True = True):
 # Resources: 
 # 
 # - [pandas docs](https://pandas.pydata.org/docs/user_guide/index.html#user-guide) -  version ``1.2.3``
-# - [pyjanitor functions](https://pyjanitor.readthedocs.io/reference/general_functions.html) - version ``0.20.13``
+# - [pyjanitor functions](https://pyjanitor.readthedocs.io/reference/general_functions.html) - version ``0.21.0``
 # - [numpy](https://numpy.org/doc/stable/reference/generated/numpy.isclose.html) - version ``1.20.0``

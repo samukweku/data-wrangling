@@ -309,6 +309,7 @@
                 
   <div class="section" id="filtering-rows-in-pandas">
 <h1>Filtering Rows in Pandas<a class="headerlink" href="#filtering-rows-in-pandas" title="Permalink to this headline">¶</a></h1>
+<p><em>Updated July 30 2021</em></p>
 <p>This article highlights various ways to filter rows in <a class="reference external" href="https://pandas.pydata.org/docs/user_guide/index.html#user-guide">Pandas</a>. The examples used here are based off the excellent <a class="reference external" href="https://suzan.rbind.io/2018/02/dplyr-tutorial-3/">article</a> by <a class="reference external" href="https://twitter.com/SuzanBaert">Susan Baert</a>.</p>
 <p>The data file can be accessed <a class="reference external" href="https://github.com/samukweku/data_files/raw/master/msleep.txt">here</a></p>
 <div class="section" id="basic-row-filters">
@@ -554,7 +555,7 @@
 <p>Or <a class="reference external" href="https://pyjanitor.readthedocs.io/reference/janitor.functions/janitor.filter_on.html#janitor.filter_on">filter_on</a>, which is just a wrapper around the <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.query.html">query</a> method,  from <a class="reference external" href="https://pyjanitor.readthedocs.io/">pyjanitor</a>:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">select_columns</span><span class="p">([</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;sleep_total&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">filter_on</span><span class="p">(</span><span class="s1">&#39;sleep_total &gt; 18&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">select_columns</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;sleep_total&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">filter_on</span><span class="p">(</span><span class="s1">&#39;sleep_total &gt; 18&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1450,7 +1451,8 @@
 <p>You can also deselect certain groups using the <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.isin.html">isin</a> function, and combine it with the <code class="docutils literal notranslate"><span class="pre">~</span></code> symbol:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="n">df</span><span class="o">.</span><span class="n">order</span><span class="o">.</span><span class="n">isin</span><span class="p">((</span><span class="s2">&quot;Rodentia&quot;</span><span class="p">,</span> <span class="s2">&quot;Carnivora&quot;</span><span class="p">,</span> <span class="s2">&quot;Primates&quot;</span><span class="p">)),</span>  <span class="p">[</span><span class="s1">&#39;order&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;sleep_total&#39;</span><span class="p">]]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="n">df</span><span class="o">.</span><span class="n">order</span><span class="o">.</span><span class="n">isin</span><span class="p">((</span><span class="s2">&quot;Rodentia&quot;</span><span class="p">,</span> <span class="s2">&quot;Carnivora&quot;</span><span class="p">,</span> <span class="s2">&quot;Primates&quot;</span><span class="p">)),</span>  
+        <span class="p">[</span><span class="s1">&#39;order&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;sleep_total&#39;</span><span class="p">]]</span>
    <span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
 <span class="p">)</span>
 </pre></div>
@@ -1916,7 +1918,10 @@ is a wrapper around the <a class="reference external" href="https://pandas.pydat
 <p>With the <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.query.html">query</a> method:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">filter</span><span class="p">([</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;sleep_total&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">&#39;name.str.contains(&quot;mouse&quot;, case = False)&#39;</span><span class="p">,</span> <span class="n">engine</span> <span class="o">=</span> <span class="s1">&#39;python&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">filter</span><span class="p">([</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;sleep_total&#39;</span><span class="p">])</span>
+   <span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">&#39;name.str.contains(&quot;mouse&quot;, case = False)&#39;</span><span class="p">,</span> 
+          <span class="n">engine</span> <span class="o">=</span> <span class="s1">&#39;python&#39;</span><span class="p">)</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -2134,7 +2139,7 @@ is a wrapper around the <a class="reference external" href="https://pandas.pydat
 <p>With the <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.query.html">query</a> method:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">select_columns</span><span class="p">([</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;order&quot;</span><span class="p">,</span> <span class="nb">slice</span><span class="p">(</span><span class="s2">&quot;sleep_total&quot;</span><span class="p">,</span> <span class="s2">&quot;bodywt&quot;</span><span class="p">)])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">select_columns</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;order&quot;</span><span class="p">,</span> <span class="nb">slice</span><span class="p">(</span><span class="s2">&quot;sleep_total&quot;</span><span class="p">,</span> <span class="s2">&quot;bodywt&quot;</span><span class="p">))</span>
    <span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">&#39;bodywt &gt; 100 and (sleep_total &gt; 15 or order != &quot;Carnivora&quot;)&#39;</span><span class="p">)</span>
 <span class="p">)</span>
 </pre></div>
@@ -2729,11 +2734,10 @@ is a wrapper around the <a class="reference external" href="https://pandas.pydat
 <p>Empty rows can be filtered out with the <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.notna.html#pandas.DataFrame.notna">notna</a> function:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rows</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">conservation</span><span class="o">.</span><span class="n">notna</span><span class="p">()</span>
-
-<span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="nb">slice</span><span class="p">(</span><span class="s2">&quot;conservation&quot;</span><span class="p">,</span> <span class="s2">&quot;sleep_cycle&quot;</span><span class="p">)]</span>
-
-<span class="n">df</span><span class="o">.</span><span class="n">select_columns</span><span class="p">(</span><span class="n">columns</span><span class="p">)</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">rows</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">select_columns</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="nb">slice</span><span class="p">(</span><span class="s2">&quot;conservation&quot;</span><span class="p">,</span> <span class="s2">&quot;sleep_cycle&quot;</span><span class="p">))</span>
+   <span class="o">.</span><span class="n">filter_on</span><span class="p">(</span><span class="s1">&#39;conservation.notna()&#39;</span><span class="p">)</span>
+   <span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -2850,7 +2854,10 @@ is a wrapper around the <a class="reference external" href="https://pandas.pydat
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">select_columns</span><span class="p">(</span><span class="n">columns</span><span class="p">)</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">&#39;conservation.notna()&#39;</span><span class="p">,</span> <span class="n">engine</span> <span class="o">=</span> <span class="s1">&#39;python&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">select_columns</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="nb">slice</span><span class="p">(</span><span class="s2">&quot;conservation&quot;</span><span class="p">,</span> <span class="s2">&quot;sleep_cycle&quot;</span><span class="p">))</span>
+   <span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">&#39;conservation.notna()&#39;</span><span class="p">,</span> <span class="n">engine</span> <span class="o">=</span> <span class="s1">&#39;python&#39;</span><span class="p">)</span>
+   <span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -2975,7 +2982,7 @@ is a wrapper around the <a class="reference external" href="https://pandas.pydat
 <p>Let’s filter for rows across the selected columns, keeping only rows where any column has the pattern <code class="docutils literal notranslate"><span class="pre">Ca</span></code> inside:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">select_columns</span><span class="p">([</span><span class="nb">slice</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;order&#39;</span><span class="p">),</span> <span class="s1">&#39;sleep_total&#39;</span><span class="p">])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">select_columns</span><span class="p">(</span><span class="nb">slice</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;order&#39;</span><span class="p">),</span> <span class="s1">&#39;sleep_total&#39;</span><span class="p">)</span>
    <span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s1">&#39;vore&#39;</span><span class="p">)</span>
    <span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="k">lambda</span> <span class="n">df</span><span class="p">:</span> <span class="n">df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="s1">&#39;object&#39;</span><span class="p">)</span>
                      <span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s1">&#39;Ca&#39;</span><span class="p">))</span>
@@ -3150,7 +3157,7 @@ is a wrapper around the <a class="reference external" href="https://pandas.pydat
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">select_columns</span><span class="p">([</span><span class="nb">slice</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;order&#39;</span><span class="p">),</span> <span class="s1">&#39;sleep_total&#39;</span><span class="p">])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">select_columns</span><span class="p">(</span><span class="nb">slice</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;order&#39;</span><span class="p">),</span> <span class="s1">&#39;sleep_total&#39;</span><span class="p">)</span>
    <span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span> <span class="o">=</span> <span class="s1">&#39;vore&#39;</span><span class="p">)</span>
    <span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">filter_rows</span><span class="p">,</span>
          <span class="n">dtype</span> <span class="o">=</span> <span class="s1">&#39;object&#39;</span><span class="p">,</span>
@@ -3307,7 +3314,7 @@ is a wrapper around the <a class="reference external" href="https://pandas.pydat
 <p>Let’s look at another example, to filter for rows, across selected columns, where any column has a value less than 0.1:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">select_columns</span><span class="p">([</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="nb">slice</span><span class="p">(</span><span class="s1">&#39;sleep_total&#39;</span><span class="p">,</span> <span class="s1">&#39;bodywt&#39;</span><span class="p">)])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">select_columns</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="nb">slice</span><span class="p">(</span><span class="s1">&#39;sleep_total&#39;</span><span class="p">,</span> <span class="s1">&#39;bodywt&#39;</span><span class="p">))</span>
    <span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">filter_rows</span><span class="p">,</span>
          <span class="n">dtype</span> <span class="o">=</span> <span class="s1">&#39;number&#39;</span><span class="p">,</span>
          <span class="n">columns</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -3455,7 +3462,7 @@ is a wrapper around the <a class="reference external" href="https://pandas.pydat
 <p>The above example only requires that at least one column has a value less than 0.1. What if the goal is to return only rows where all the columns have values above 1?</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">select_columns</span><span class="p">([</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="nb">slice</span><span class="p">(</span><span class="s1">&#39;sleep_total&#39;</span><span class="p">,</span> <span class="s1">&#39;bodywt&#39;</span><span class="p">)])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">select_columns</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="nb">slice</span><span class="p">(</span><span class="s1">&#39;sleep_total&#39;</span><span class="p">,</span> <span class="s1">&#39;bodywt&#39;</span><span class="p">))</span>
    <span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span> <span class="o">=</span> <span class="s1">&#39;awake&#39;</span><span class="p">)</span>
    <span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">filter_rows</span><span class="p">,</span>
          <span class="n">dtype</span> <span class="o">=</span> <span class="s1">&#39;number&#39;</span><span class="p">,</span>
@@ -3511,7 +3518,7 @@ is a wrapper around the <a class="reference external" href="https://pandas.pydat
 <p>Return rows where the string columns contain null values:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">select_columns</span><span class="p">([</span><span class="nb">slice</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;order&#39;</span><span class="p">),</span> <span class="nb">slice</span><span class="p">(</span><span class="s1">&#39;sleep_total&#39;</span><span class="p">,</span> <span class="s1">&#39;sleep_rem&#39;</span><span class="p">)])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">select_columns</span><span class="p">(</span><span class="nb">slice</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;order&#39;</span><span class="p">),</span> <span class="nb">slice</span><span class="p">(</span><span class="s1">&#39;sleep_total&#39;</span><span class="p">,</span> <span class="s1">&#39;sleep_rem&#39;</span><span class="p">))</span>
    <span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">filter_rows</span><span class="p">,</span>
          <span class="n">dtype</span> <span class="o">=</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span>
          <span class="n">columns</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -3623,9 +3630,9 @@ is a wrapper around the <a class="reference external" href="https://pandas.pydat
 <p>It is also possible to filter rows based on specific columns:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">select_columns</span><span class="p">([</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> 
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">select_columns</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> 
                     <span class="nb">slice</span><span class="p">(</span><span class="s1">&#39;sleep_total&#39;</span><span class="p">,</span> <span class="s1">&#39;sleep_rem&#39;</span><span class="p">),</span> 
-                    <span class="nb">slice</span><span class="p">(</span><span class="s1">&#39;brainwt&#39;</span><span class="p">,</span> <span class="s1">&#39;bodywt&#39;</span><span class="p">)]</span>
+                    <span class="nb">slice</span><span class="p">(</span><span class="s1">&#39;brainwt&#39;</span><span class="p">,</span> <span class="s1">&#39;bodywt&#39;</span><span class="p">)</span>
                     <span class="p">)</span>
    <span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="k">lambda</span> <span class="n">df</span><span class="p">:</span> <span class="n">df</span><span class="o">.</span><span class="n">filter</span><span class="p">([</span><span class="s1">&#39;sleep_rem&#39;</span><span class="p">,</span> <span class="s1">&#39;sleep_total&#39;</span><span class="p">])</span>
                      <span class="o">.</span><span class="n">gt</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
@@ -3685,9 +3692,9 @@ is a wrapper around the <a class="reference external" href="https://pandas.pydat
 <p>With the <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.query.html">query</a> method:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">select_columns</span><span class="p">([</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> 
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">select_columns</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> 
                     <span class="nb">slice</span><span class="p">(</span><span class="s1">&#39;sleep_total&#39;</span><span class="p">,</span> <span class="s1">&#39;sleep_rem&#39;</span><span class="p">),</span> 
-                    <span class="nb">slice</span><span class="p">(</span><span class="s1">&#39;brainwt&#39;</span><span class="p">,</span> <span class="s1">&#39;bodywt&#39;</span><span class="p">)]</span>
+                    <span class="nb">slice</span><span class="p">(</span><span class="s1">&#39;brainwt&#39;</span><span class="p">,</span> <span class="s1">&#39;bodywt&#39;</span><span class="p">)</span>
                     <span class="p">)</span>
    <span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">&#39;sleep_total &gt; 5 and sleep_rem &gt; 5&#39;</span><span class="p">)</span>
 <span class="p">)</span>
@@ -3808,9 +3815,9 @@ is a wrapper around the <a class="reference external" href="https://pandas.pydat
 <p>Another example below that uses a different option when selecting the columns to filter at:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">select_columns</span><span class="p">([</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> 
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">select_columns</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> 
                     <span class="nb">slice</span><span class="p">(</span><span class="s1">&#39;sleep_total&#39;</span><span class="p">,</span> <span class="s1">&#39;sleep_rem&#39;</span><span class="p">),</span> 
-                    <span class="nb">slice</span><span class="p">(</span><span class="s1">&#39;brainwt&#39;</span><span class="p">,</span> <span class="s1">&#39;bodywt&#39;</span><span class="p">)]</span>
+                    <span class="nb">slice</span><span class="p">(</span><span class="s1">&#39;brainwt&#39;</span><span class="p">,</span> <span class="s1">&#39;bodywt&#39;</span><span class="p">)</span>
                     <span class="p">)</span>
    <span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="k">lambda</span> <span class="n">df</span><span class="p">:</span> <span class="n">df</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">like</span><span class="o">=</span><span class="s1">&#39;sleep&#39;</span><span class="p">)</span>
                      <span class="o">.</span><span class="n">gt</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
@@ -3869,9 +3876,9 @@ is a wrapper around the <a class="reference external" href="https://pandas.pydat
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">select_columns</span><span class="p">([</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> 
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">select_columns</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> 
                     <span class="nb">slice</span><span class="p">(</span><span class="s1">&#39;sleep_total&#39;</span><span class="p">,</span> <span class="s1">&#39;sleep_rem&#39;</span><span class="p">),</span> 
-                    <span class="nb">slice</span><span class="p">(</span><span class="s1">&#39;brainwt&#39;</span><span class="p">,</span> <span class="s1">&#39;bodywt&#39;</span><span class="p">)]</span>
+                    <span class="nb">slice</span><span class="p">(</span><span class="s1">&#39;brainwt&#39;</span><span class="p">,</span> <span class="s1">&#39;bodywt&#39;</span><span class="p">)</span>
                     <span class="p">)</span>
    <span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">filter_rows</span><span class="p">,</span>
          <span class="n">dtype</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -3933,7 +3940,7 @@ is a wrapper around the <a class="reference external" href="https://pandas.pydat
 <p>Resources:</p>
 <ul class="simple">
 <li><p><a class="reference external" href="https://pandas.pydata.org/docs/user_guide/index.html#user-guide">pandas docs</a> -  version <code class="docutils literal notranslate"><span class="pre">1.2.3</span></code></p></li>
-<li><p><a class="reference external" href="https://pyjanitor.readthedocs.io/reference/general_functions.html">pyjanitor functions</a> - version <code class="docutils literal notranslate"><span class="pre">0.20.13</span></code></p></li>
+<li><p><a class="reference external" href="https://pyjanitor.readthedocs.io/reference/general_functions.html">pyjanitor functions</a> - version <code class="docutils literal notranslate"><span class="pre">0.21.0</span></code></p></li>
 <li><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.isclose.html">numpy</a> - version <code class="docutils literal notranslate"><span class="pre">1.20.0</span></code></p></li>
 </ul>
 </div>
