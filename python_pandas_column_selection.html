@@ -323,7 +323,6 @@
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">janitor</span>
 
@@ -658,7 +657,7 @@ Name: genus, dtype: object
 </table>
 </div></div></div>
 </div>
-<p><strong>Note:</strong> <a class="reference external" href="https://pyjanitor.readthedocs.io/reference/janitor.functions/janitor.select_columns.html#janitor.select_columns">select_columns</a> only works with labels, and can accept a string, a regular expression, a slice, a function, or a list containing any of the previous types. If a function is provided, the function should be applicable to every seriesin the dataframe.</p>
+<p><strong>Note:</strong> <a class="reference external" href="https://pyjanitor.readthedocs.io/reference/janitor.functions/janitor.select_columns.html#janitor.select_columns">select_columns</a> only works with labels, and accepts a string, a regular expression, a slice, a function, or a combination of any of the previous options. If a function is provided, the function should be applicable to every series in the dataframe.</p>
 <p>You can select columns by passing a list of the column names:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1174,9 +1173,7 @@ Name: genus, dtype: object
 <p>Pandas accepts a single slice object in column selection; for multiple slice selections, Pyjanitor’s <a class="reference external" href="https://pyjanitor.readthedocs.io/reference/janitor.functions/janitor.select_columns.html#janitor.select_columns">select_columns</a> comes in handy:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">columns_to_select</span> <span class="o">=</span> <span class="p">[</span><span class="nb">slice</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;order&quot;</span><span class="p">),</span> <span class="nb">slice</span><span class="p">(</span><span class="s2">&quot;sleep_total&quot;</span><span class="p">,</span> <span class="s2">&quot;sleep_cycle&quot;</span><span class="p">)]</span>
-
-<span class="n">df</span><span class="o">.</span><span class="n">select_columns</span><span class="p">(</span><span class="n">columns_to_select</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">select_columns</span><span class="p">(</span><span class="nb">slice</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;order&quot;</span><span class="p">),</span> <span class="nb">slice</span><span class="p">(</span><span class="s2">&quot;sleep_total&quot;</span><span class="p">,</span> <span class="s2">&quot;sleep_cycle&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1266,9 +1263,7 @@ Name: genus, dtype: object
 <p>To deselect/drop a chunk of columns you can set <code class="docutils literal notranslate"><span class="pre">invert=True</span></code> in Pyjanitor’s <a class="reference external" href="https://pyjanitor.readthedocs.io/reference/janitor.functions/janitor.select_columns.html#janitor.select_columns">select_columns</a> :</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">columns_to_remove</span> <span class="o">=</span> <span class="p">[</span><span class="nb">slice</span><span class="p">(</span><span class="s2">&quot;sleep_total&quot;</span><span class="p">,</span> <span class="s2">&quot;awake&quot;</span><span class="p">),</span> <span class="s2">&quot;conservation&quot;</span><span class="p">]</span>
-
-<span class="n">df</span><span class="o">.</span><span class="n">select_columns</span><span class="p">(</span><span class="n">columns_to_remove</span><span class="p">,</span> <span class="n">invert</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">select_columns</span><span class="p">(</span><span class="nb">slice</span><span class="p">(</span><span class="s2">&quot;sleep_total&quot;</span><span class="p">,</span> <span class="s2">&quot;awake&quot;</span><span class="p">),</span> <span class="s2">&quot;conservation&quot;</span><span class="p">,</span> <span class="n">invert</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1782,10 +1777,8 @@ Name: genus, dtype: object
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># list of shell-like glob strings</span>
-<span class="n">columns_to_select</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;*eep*&quot;</span><span class="p">,</span> <span class="s2">&quot;*wt&quot;</span><span class="p">]</span>
-
-<span class="n">df</span><span class="o">.</span><span class="n">select_columns</span><span class="p">(</span><span class="n">columns_to_select</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># shell-like glob strings</span>
+<span class="n">df</span><span class="o">.</span><span class="n">select_columns</span><span class="p">(</span><span class="s2">&quot;*eep*&quot;</span><span class="p">,</span> <span class="s2">&quot;*wt&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -2366,9 +2359,7 @@ Name: genus, dtype: object
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># The function is applied to each Series in the DataFrame</span>
-<span class="n">columns_to_select</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">is_string_dtype</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
-
-<span class="n">df</span><span class="o">.</span><span class="n">select_columns</span><span class="p">(</span><span class="n">columns_to_select</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<span class="n">df</span><span class="o">.</span><span class="n">select_columns</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">is_string_dtype</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -2529,9 +2520,7 @@ Name: genus, dtype: object
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">columns_to_select</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">is_numeric_dtype</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
-
-<span class="n">df</span><span class="o">.</span><span class="n">select_columns</span><span class="p">(</span><span class="n">columns_to_select</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">select_columns</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">is_numeric_dtype</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -2692,9 +2681,7 @@ Name: genus, dtype: object
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">columns_to_select</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">is_numeric_dtype</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
-
-<span class="n">df</span><span class="o">.</span><span class="n">select_columns</span><span class="p">(</span><span class="n">columns_to_select</span><span class="p">,</span> <span class="n">invert</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">select_columns</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">is_numeric_dtype</span><span class="p">,</span> <span class="n">invert</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -2848,17 +2835,13 @@ Name: genus, dtype: object
 <p>Alternatively, we can just get the column names and pass them directly to <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.loc.html">loc</a></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">columns_to_select</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="n">s</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">]</span><span class="o">.</span><span class="n">index</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">columns_to_select</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">numeric_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="n">s</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">]</span><span class="o">.</span><span class="n">index</span>
 
 <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">columns_to_select</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_73115/2183920908.py:1: FutureWarning: Dropping of nuisance columns in DataFrame reductions (with &#39;numeric_only=None&#39;) is deprecated; in a future version this will raise TypeError.  Select only valid columns before calling the reduction.
-  columns_to_select = df.mean().loc[lambda s: s &gt; 10].index
-</pre></div>
-</div>
 <div class="output text_html"><div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -2920,12 +2903,9 @@ Name: genus, dtype: object
 <p>The same steps are possible with Pyjanitor’s <a class="reference external" href="https://pyjanitor.readthedocs.io/reference/janitor.functions/janitor.select_columns.html#janitor.select_columns">select_columns</a>:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">numeric_only</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">is_numeric_dtype</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
-<span class="n">mean_gt_10</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">df</span><span class="p">:</span> <span class="n">df</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">10</span>
-
-<span class="p">(</span><span class="n">df</span>
- <span class="o">.</span><span class="n">select_columns</span><span class="p">(</span><span class="n">numeric_only</span><span class="p">)</span>
- <span class="o">.</span><span class="n">select_columns</span><span class="p">(</span><span class="n">mean_gt_10</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">df</span>
+ <span class="o">.</span><span class="n">select_columns</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">is_numeric_dtype</span><span class="p">)</span>
+ <span class="o">.</span><span class="n">select_columns</span><span class="p">(</span><span class="k">lambda</span> <span class="n">df</span><span class="p">:</span> <span class="n">df</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">)</span>
  <span class="o">.</span><span class="n">head</span><span class="p">()</span>
  <span class="p">)</span>
 </pre></div>
@@ -2992,17 +2972,11 @@ Name: genus, dtype: object
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">columns_to_select</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="n">s</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-
-<span class="n">df</span><span class="o">.</span><span class="n">select_columns</span><span class="p">(</span><span class="n">columns_to_select</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">select_columns</span><span class="p">(</span><span class="n">columns_to_select</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_73115/24462390.py:1: FutureWarning: Dropping of nuisance columns in DataFrame reductions (with &#39;numeric_only=None&#39;) is deprecated; in a future version this will raise TypeError.  Select only valid columns before calling the reduction.
-  columns_to_select = df.mean().loc[lambda s: s &gt; 10].index.tolist()
-</pre></div>
-</div>
 <div class="output text_html"><div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -3061,12 +3035,10 @@ Name: genus, dtype: object
 </table>
 </div></div></div>
 </div>
-<p>Let’s look at another example, where we select only columns where the number of distinct values is less than 10:</p>
+<p>Let’s look at another example, where we select only columns where the number of distinct values is less than 10; this uses booleans to select the relevant columns:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">columns_to_select</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">10</span>
-
-<span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">columns_to_select</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">df</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -3125,9 +3097,7 @@ Name: genus, dtype: object
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">columns_to_select</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">df</span><span class="p">:</span> <span class="n">df</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">10</span>
-
-<span class="n">df</span><span class="o">.</span><span class="n">select_columns</span><span class="p">(</span><span class="n">columns_to_select</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">select_columns</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -4061,7 +4031,7 @@ Name: genus, dtype: object
 <li><p><a class="reference external" href="https://pyjanitor.readthedocs.io/reference/janitor.functions/janitor.select_columns.html#janitor.select_columns">Pyjanitor select_columns</a></p></li>
 <li><p><a class="reference external" href="https://pyjanitor.readthedocs.io/reference/janitor.functions/janitor.rename_columns.html#janitor.rename_columns">Pyjanitor rename_columns</a></p></li>
 <li><p><a class="reference external" href="https://pyjanitor.readthedocs.io/reference/janitor.functions/janitor.reorder_columns.html">Pyjanitor reorder_columns</a></p></li>
-<li><p>Based on Pandas 1.2.2 and Pyjanitor’s latest dev version 0.20.10</p></li>
+<li><p>Based on Pandas 1.2.2 and Pyjanitor’s latest dev version 0.21.0</p></li>
 </ul>
 </div>
 </div>
