@@ -17,7 +17,6 @@
 
 
 import pandas as pd
-import numpy as np
 import re
 import janitor
 
@@ -72,7 +71,7 @@ df.iloc[:, [-10]].head()
 df.select_columns('genus').head()
 
 
-# **Note:** [select_columns](https://pyjanitor.readthedocs.io/reference/janitor.functions/janitor.select_columns.html#janitor.select_columns) only works with labels, and can accept a string, a regular expression, a slice, a function, or a list containing any of the previous types. If a function is provided, the function should be applicable to every seriesin the dataframe.
+# **Note:** [select_columns](https://pyjanitor.readthedocs.io/reference/janitor.functions/janitor.select_columns.html#janitor.select_columns) only works with labels, and accepts a string, a regular expression, a slice, a function, or a combination of any of the previous options. If a function is provided, the function should be applicable to every series in the dataframe.
 
 # You can select columns by passing a list of the column names:
 
@@ -135,9 +134,7 @@ df.select_columns(slice("name", "order")).head()
 # In[15]:
 
 
-columns_to_select = [slice("name", "order"), slice("sleep_total", "sleep_cycle")]
-
-df.select_columns(columns_to_select).head()
+df.select_columns(slice("name", "order"), slice("sleep_total", "sleep_cycle")).head()
 
 
 # To deselect/drop a chunk of columns you can set `invert=True` in Pyjanitor's [select_columns](https://pyjanitor.readthedocs.io/reference/janitor.functions/janitor.select_columns.html#janitor.select_columns) :
@@ -145,9 +142,7 @@ df.select_columns(columns_to_select).head()
 # In[16]:
 
 
-columns_to_remove = [slice("sleep_total", "awake"), "conservation"]
-
-df.select_columns(columns_to_remove, invert = True).head()
+df.select_columns(slice("sleep_total", "awake"), "conservation", invert = True).head()
 
 
 # ### Selecting Columns based on Partial Names
@@ -211,10 +206,8 @@ df.select_columns(columns_to_select).head()
 # In[23]:
 
 
-# list of shell-like glob strings
-columns_to_select=["*eep*", "*wt"]
-
-df.select_columns(columns_to_select).head()
+# shell-like glob strings
+df.select_columns("*eep*", "*wt").head()
 
 
 # ### Selecting Columns based on Regex
@@ -285,9 +278,7 @@ df.select_dtypes('object').head()
 
 
 # The function is applied to each Series in the DataFrame
-columns_to_select = lambda df: pd.api.types.is_string_dtype(df)
-
-df.select_columns(columns_to_select).head()
+df.select_columns(pd.api.types.is_string_dtype).head()
 
 
 # You can select multiple data types:
@@ -301,9 +292,7 @@ df.select_dtypes('number').head()
 # In[33]:
 
 
-columns_to_select = lambda df: pd.api.types.is_numeric_dtype(df)
-
-df.select_columns(columns_to_select).head()
+df.select_columns(pd.api.types.is_numeric_dtype).head()
 
 
 # You can remove columns based on their data type:
@@ -317,9 +306,7 @@ df.select_dtypes(exclude = 'number').head()
 # In[35]:
 
 
-columns_to_select = lambda df: pd.api.types.is_numeric_dtype(df)
-
-df.select_columns(columns_to_select, invert = True).head()
+df.select_columns(pd.api.types.is_numeric_dtype, invert = True).head()
 
 
 # ### Selecting columns by logical expressions
@@ -345,7 +332,7 @@ df.select_columns(columns_to_select, invert = True).head()
 # In[37]:
 
 
-columns_to_select = df.mean().loc[lambda s: s > 10].index
+columns_to_select = df.mean(numeric_only=True).loc[lambda s: s > 10].index
 
 df.loc[:, columns_to_select].head()
 
@@ -355,12 +342,9 @@ df.loc[:, columns_to_select].head()
 # In[38]:
 
 
-numeric_only = lambda df: pd.api.types.is_numeric_dtype(df)
-mean_gt_10 = lambda df: df.mean() > 10
-
 (df
- .select_columns(numeric_only)
- .select_columns(mean_gt_10)
+ .select_columns(pd.api.types.is_numeric_dtype)
+ .select_columns(lambda df: df.mean() > 10)
  .head()
  )
 
@@ -368,27 +352,21 @@ mean_gt_10 = lambda df: df.mean() > 10
 # In[39]:
 
 
-columns_to_select = df.mean().loc[lambda s: s > 10].index.tolist()
-
 df.select_columns(columns_to_select).head()
 
 
-# Let's look at another example, where we select only columns where the number of distinct values is less than 10:
+# Let's look at another example, where we select only columns where the number of distinct values is less than 10; this uses booleans to select the relevant columns:
 
 # In[40]:
 
 
-columns_to_select = df.nunique() < 10
-
-df.loc[:, columns_to_select].head()
+df.loc[:, df.nunique() < 10].head()
 
 
 # In[41]:
 
 
-columns_to_select = lambda df: df.nunique() < 10
-
-df.select_columns(columns_to_select).head()
+df.select_columns(df.nunique() < 10).head()
 
 
 # ## **Reordering Columns**
@@ -501,4 +479,4 @@ df.rename(columns = str.upper).head()
 # - [Pyjanitor rename_columns](https://pyjanitor.readthedocs.io/reference/janitor.functions/janitor.rename_columns.html#janitor.rename_columns)
 # - [Pyjanitor reorder_columns](https://pyjanitor.readthedocs.io/reference/janitor.functions/janitor.reorder_columns.html)
 # 
-# - Based on Pandas 1.2.2 and Pyjanitor's latest dev version 0.20.10
+# - Based on Pandas 1.2.2 and Pyjanitor's latest dev version 0.21.0
