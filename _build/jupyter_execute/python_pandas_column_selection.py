@@ -3,6 +3,8 @@
 
 # # Column Selection in Pandas - and Pyjanitor
 
+# *Updated July 30 2021*
+
 # This article highlights various ways to select columns using [Pandas](https://pandas.pydata.org/pandas-docs/stable/user_guide/index.html#user-guide) and [Pyjanitor](https://pyjanitor.readthedocs.io/). 
 # 
 # [Pyjanitor](https://pyjanitor.readthedocs.io/) is an open-source project that extends Pandas chaining methods with a verb-based API.
