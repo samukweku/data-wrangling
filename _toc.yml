@@ -11,3 +11,4 @@ sections:
   sections:
   - file: python_pandas_column_selection
   - file: python_pandas_row_selection
+  - file: access_excel_tables_with_python
